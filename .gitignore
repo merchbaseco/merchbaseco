@@ -1,0 +1,38 @@
+# Node & package managers
+node_modules/
+.pnp.*
+.npmrc
+
+# Astro build artifacts
+dist/
+.astro/
+
+# TypeScript build output
+*.tsbuildinfo
+
+# Logs & reports
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.json
+
+# Environment files
+.env
+.env.*.local
+
+# IDE & editor
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# Yarn Berry
+.yarn/*
+!.yarn/patches/
+!.yarn/plugins/
+!.yarn/releases/
+!.yarn/sdks/
+!.yarn/versions/
