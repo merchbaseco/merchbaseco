@@ -27,10 +27,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.1 --activate
+
+      - name: Cache Yarn artifacts
+        uses: actions/cache@v4
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('.yarn/install-state.gz') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install --immutable
