@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getEntryBySlug } from "astro:content";
+
+const { slug } = Astro.params;
+const entry = slug ? await getEntryBySlug("blog", slug) : undefined;
+
+if (!entry) {
+  return Astro.redirect("/blog");
+}
+
+const { Content, data } = await entry.render();
+const formattedDate = data.publishDate.toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={`${data.title} · MerchBase`}>
+  <main class="mx-auto max-w-3xl px-6 py-16">
+    <article class="mx-auto">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-blue-600">{formattedDate}</p>
+      <h1 class="mb-6 text-4xl font-bold text-gray-900">{data.title}</h1>
+      <p class="mb-10 text-lg text-gray-600">{data.description}</p>
+      <div class="space-y-6 text-lg leading-relaxed text-gray-700">
+        <Content />
+      </div>
+    </article>
+  </main>
+</BaseLayout>
