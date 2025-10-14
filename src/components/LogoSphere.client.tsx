@@ -5,8 +5,8 @@ import { HueShiftingSphere } from '@/components/three/HueShiftingSphere'
 
 export function LogoSphereClient() {
   return (
-    <div className="h-16 w-16">
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+    <div className="absolute inset-0 z-10 overflow-hidden rounded-2xl">
+      <Canvas camera={{ position: [0, 0, 5], fov: 45 }} gl={{ alpha: true }} style={{ background: 'transparent' }}>
         <color attach="background" args={['transparent']} />
         <ambientLight intensity={0.8} />
         <directionalLight position={[10, 10, 5]} intensity={2} />
