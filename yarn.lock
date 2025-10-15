@@ -802,6 +802,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/bricolage-grotesque@npm:^5.2.10":
+  version: 5.2.10
+  resolution: "@fontsource/bricolage-grotesque@npm:5.2.10"
+  checksum: 10c0/9150b7a8a76dd50297a421572e88b960bf9a43f7429933facd8b7183d3d2f396b6efa894622cc0fff04edfe7062a4b200c585db090ac90b032e35849ab446a89
+  languageName: node
+  linkType: hard
+
+"@fontsource/public-sans@npm:^5.2.7":
+  version: 5.2.7
+  resolution: "@fontsource/public-sans@npm:5.2.7"
+  checksum: 10c0/7089c2edd3965b659e9450a3ec3a603a075b62c7b6488199c40beb4e8d277c0b43fab5d39962c3768d22b8f485ef57d833500a7e2dc6ff717616638b0fde37c3
+  languageName: node
+  linkType: hard
+
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
@@ -3829,6 +3843,8 @@ __metadata:
     "@astrojs/react": "npm:^4.0.5"
     "@astrojs/tailwind": "npm:^5.1.1"
     "@biomejs/biome": "npm:^1.9.4"
+    "@fontsource/bricolage-grotesque": "npm:^5.2.10"
+    "@fontsource/public-sans": "npm:^5.2.7"
     "@react-three/drei": "npm:^9.114.6"
     "@react-three/fiber": "npm:^8.15.18"
     "@types/react": "npm:^18.3.11"

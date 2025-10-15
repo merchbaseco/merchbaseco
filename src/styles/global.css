@@ -1,3 +1,7 @@
+@import "@fontsource/public-sans/400.css";
+@import "@fontsource/public-sans/700.css";
+@import "@fontsource/bricolage-grotesque/800.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,5 +11,5 @@
 }
 
 body {
-  @apply bg-white text-slate-900 antialiased;
+  @apply bg-white text-slate-900 antialiased font-sans;
 }
