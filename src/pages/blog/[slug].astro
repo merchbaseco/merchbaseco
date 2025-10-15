@@ -1,15 +1,31 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getEntryBySlug } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
-const { slug } = Astro.params;
-const entry = slug ? await getEntryBySlug("blog", slug) : undefined;
+type BlogEntry = CollectionEntry<"blog">;
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+
+if (!slug) {
+  return Astro.redirect("/blog");
+}
+
+const entry = await getEntry("blog", slug);
 
 if (!entry) {
   return Astro.redirect("/blog");
 }
 
-const { Content, data } = await entry.render();
+const { Content } = await entry.render();
+const { data } = entry;
 const formattedDate = data.publishDate.toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
