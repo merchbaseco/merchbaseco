@@ -13,3 +13,13 @@
 body {
   @apply bg-white text-slate-900 antialiased font-sans;
 }
+
+@layer utilities {
+  @supports (clip-path: path("M0 0H1V1H0Z")) {
+    .squircle {
+      clip-path: path(
+        "M0% 24% C0% 10.5% 10.5% 0% 24% 0% H76% C89.5% 0% 100% 10.5% 100% 24% V76% C100% 89.5% 89.5% 100% 76% 100% H24% C10.5% 100% 0% 89.5% 0% 76% Z"
+      );
+    }
+  }
+}
