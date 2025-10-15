@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Card } from "@/components/ui/Card";
 import { getCollection, getEntry } from "astro:content";
 
 export async function getStaticPaths() {
@@ -24,24 +25,46 @@ if (!entry) {
   return Astro.redirect(blogIndexHref);
 }
 
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 const { data } = entry;
+
 const formattedDate = data.publishDate.toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
   year: "numeric",
 });
+
 const publishedDateTime = data.publishDate.toISOString();
+
+const gradientPalette = [
+  "radial-gradient(140% 120% at 0% 20%, rgba(216, 240, 255, 0.95) 0%, rgba(255, 250, 235, 0.9) 45%, rgba(209, 247, 226, 0.85) 100%)",
+  "radial-gradient(140% 140% at 15% 15%, rgba(255, 236, 179, 0.95) 0%, rgba(255, 245, 230, 0.88) 45%, rgba(210, 240, 255, 0.85) 100%)",
+  "radial-gradient(140% 140% at 10% 10%, rgba(255, 213, 220, 0.9) 0%, rgba(254, 245, 230, 0.85) 45%, rgba(226, 242, 255, 0.85) 100%)",
+  "radial-gradient(140% 130% at 20% 0%, rgba(210, 241, 255, 0.92) 0%, rgba(237, 244, 255, 0.85) 45%, rgba(223, 252, 235, 0.9) 100%)",
+];
+
+const gradientIndex = [...slug].reduce(
+  (accumulator, character) => accumulator + character.charCodeAt(0),
+  0,
+);
+const heroAccent = gradientPalette[gradientIndex % gradientPalette.length];
+
+const filteredHeadings = (headings ?? []).filter((heading) => heading.depth <= 3);
+
+const formatTagLabel = (tag: string) =>
+  tag.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+
+const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
 ---
 
 <BaseLayout title={`${data.title} · MerchBase`}>
   <div class="bg-white">
-    <main class="mx-auto max-w-4xl px-6 py-16">
+    <main class="mx-auto max-w-6xl px-6 py-16">
       <a
         href={blogIndexHref}
-        class="group mb-10 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition hover:text-emerald-700"
+        class="group mb-10 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
       >
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-emerald-100 bg-white text-emerald-600 transition group-hover:border-emerald-200 group-hover:bg-emerald-50">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-100 bg-white text-emerald-600 transition group-hover:border-emerald-200 group-hover:bg-emerald-50">
           <svg
             class="h-4 w-4"
             viewBox="0 0 24 24"
@@ -58,22 +81,78 @@ const publishedDateTime = data.publishDate.toISOString();
         Back to updates
       </a>
 
-      <header class="mb-12 space-y-6">
-        <div class="inline-flex items-center gap-3 rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-gray-500">
-          <span class="h-2 w-2 rounded-full bg-emerald-500" />
+      <header class="space-y-6">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-gray-400">
+          {primaryTag && (
+            <span class="rounded-full border border-gray-200 bg-white px-3 py-1 text-[11px] tracking-[0.35em] text-gray-500">
+              {primaryTag}
+            </span>
+          )}
           <time datetime={publishedDateTime}>{formattedDate}</time>
         </div>
         <h1 class="font-display text-5xl font-semibold leading-tight text-gray-900 md:text-6xl">
           {data.title}
         </h1>
-        <p class="max-w-2xl text-lg text-gray-600 md:text-xl">{data.description}</p>
+        <p class="max-w-3xl text-lg text-gray-600 md:text-xl">{data.description}</p>
       </header>
 
-      <section class="rounded-3xl border border-gray-200 bg-white p-10 shadow-sm">
-        <article class="rich-text">
-          <Content />
+      <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,2.2fr)_minmax(0,0.8fr)] lg:items-start">
+        <article class="space-y-10">
+          <figure class="overflow-hidden rounded-[32px] border border-black/5 bg-gray-100">
+            <div
+              aria-hidden="true"
+              class="aspect-[16/7] w-full"
+              style={`background-image: ${heroAccent}`}
+            />
+          </figure>
+
+          <Card class="border-gray-100 bg-white !p-10">
+            <div class="rich-text">
+              <Content />
+            </div>
+          </Card>
         </article>
-      </section>
+
+        {filteredHeadings.length ? (
+          <aside class="lg:sticky lg:top-32">
+            <Card class="space-y-5 border-gray-100 bg-white">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.35em] text-gray-400">On this page</p>
+                <h2 class="text-lg font-semibold text-gray-900">Jump to a section</h2>
+              </div>
+              <nav aria-label="Table of contents" class="space-y-3 text-sm text-gray-600">
+                {filteredHeadings.map((heading) => {
+                  const isChild = heading.depth > 2;
+
+                  return (
+                    <a
+                      key={heading.slug}
+                      class={`flex items-center justify-between gap-4 rounded-xl px-3 py-2 text-left transition hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                        isChild ? "pl-4 text-gray-500" : "pl-0"
+                      }`}
+                      href={`#${heading.slug}`}
+                    >
+                      <span class="flex-1 pr-4">{heading.text}</span>
+                      <svg
+                        class="h-4 w-4 flex-shrink-0 text-emerald-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </a>
+                  );
+                })}
+              </nav>
+            </Card>
+          </aside>
+        ) : null}
+      </div>
     </main>
   </div>
 </BaseLayout>
@@ -92,14 +171,14 @@ const publishedDateTime = data.publishDate.toISOString();
   }
 
   .rich-text :is(h2, h3, h4, h5, h6) {
-    margin-top: 2.5rem;
+    margin-top: 2.75rem;
     color: rgb(17 24 39);
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
   .rich-text :is(h2, h3, h4, h5, h6) + * {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
   }
 
   .rich-text p {
