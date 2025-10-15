@@ -8,7 +8,7 @@ Astro pages live in `src/pages`, layout shells sit in `src/layouts`, and shared 
 - `yarn build`: generate the production static build in `dist/`.
 - `yarn preview`: run a local server against the built output for smoke checks.
 - `yarn lint`: run Biome linting across Astro, TypeScript, and JSX sources.
-- `yarn format`: apply Biome formatting rules before committing.
+- `yarn format`: apply Biome formatting rules before committing. Always run this command and resolve any Biome issues before every commit so the codebase stays consistent.
 
 ## Coding Style & Naming Conventions
 Biome enforces two-space indentation, 100-character line width, and organized imports; run `yarn format` before pushing. Favor TypeScript across React islands and utilities, and type props with explicit interfaces. Use PascalCase for components and layouts (e.g., `HeroSection.tsx`), camelCase for functions/hooks, and kebab-case for file names in `pages/` to match route slugs. Tailwind classes should be composed with `clsx` or `tailwind-merge` when conditional logic is needed.

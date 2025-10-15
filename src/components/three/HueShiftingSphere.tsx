@@ -1,7 +1,7 @@
-import { useMemo, useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import type { Mesh, ShaderMaterial } from 'three'
-import * as THREE from 'three'
+import { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import type { Mesh, ShaderMaterial } from "three";
+import * as THREE from "three";
 
 const vertexShader = `
   varying vec3 vNormal;
@@ -15,7 +15,7 @@ const vertexShader = `
     vWorldPosition = worldPosition.xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
-`
+`;
 
 const fragmentShader = `
   uniform float uTime;
@@ -79,40 +79,41 @@ const fragmentShader = `
     vec3 finalColor = mix(baseColor, litColor, colorBlend);
     gl_FragColor = vec4(finalColor, 1.0);
   }
-`
+`;
 
 export function HueShiftingSphere() {
-  const meshRef = useRef<Mesh>(null)
-  const materialRef = useRef<ShaderMaterial>(null)
-  const startTime = useRef<number | null>(null)
-  const initialTimeRef = useRef<number>(0)
+  const meshRef = useRef<Mesh>(null);
+  const materialRef = useRef<ShaderMaterial>(null);
+  const startTime = useRef<number | null>(null);
+  const initialTimeRef = useRef<number>(0);
 
   useFrame((state) => {
     if (startTime.current === null) {
-      startTime.current = state.clock.elapsedTime
-      initialTimeRef.current = state.clock.elapsedTime
+      startTime.current = state.clock.elapsedTime;
+      initialTimeRef.current = state.clock.elapsedTime;
     }
 
-    const elapsed = state.clock.elapsedTime - startTime.current
-    const animationProgress = Math.min(elapsed / 1.2, 1)
+    const elapsed = state.clock.elapsedTime - startTime.current;
+    const animationProgress = Math.min(elapsed / 1.2, 1);
 
     if (meshRef.current) {
-      const easedProgress = animationProgress < 0.5
-        ? 2 * animationProgress * animationProgress
-        : -1 + (4 - 2 * animationProgress) * animationProgress
+      const easedProgress =
+        animationProgress < 0.5
+          ? 2 * animationProgress * animationProgress
+          : -1 + (4 - 2 * animationProgress) * animationProgress;
 
-      const scale = 0.85 + easedProgress * 0.2
-      meshRef.current.scale.setScalar(scale)
-      meshRef.current.rotation.y += 0.008 + (1 - animationProgress) * 0.02
-      meshRef.current.rotation.x += 0.003 + (1 - animationProgress) * 0.015
+      const scale = 0.85 + easedProgress * 0.2;
+      meshRef.current.scale.setScalar(scale);
+      meshRef.current.rotation.y += 0.008 + (1 - animationProgress) * 0.02;
+      meshRef.current.rotation.x += 0.003 + (1 - animationProgress) * 0.015;
     }
 
     if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime - initialTimeRef.current
-      const intensity = animationProgress
-      materialRef.current.uniforms.uGlow.value = intensity
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime - initialTimeRef.current;
+      const intensity = animationProgress;
+      materialRef.current.uniforms.uGlow.value = intensity;
     }
-  })
+  });
 
   return (
     <mesh ref={meshRef}>
@@ -128,5 +129,5 @@ export function HueShiftingSphere() {
         side={THREE.FrontSide}
       />
     </mesh>
-  )
+  );
 }
