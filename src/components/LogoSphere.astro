@@ -1,11 +1,14 @@
 ---
+import { Squircle } from "@/components/ui/Squircle";
 import { LogoSphereClient as LogoSphereClientIsland } from "@/components/LogoSphere.client";
 ---
 
 <div class="relative h-16 w-16">
-    <div
-        class="absolute inset-3 size-10 z-0 rounded-full squircle bg-purple-950 transition-opacity duration-700 ease-out motion-safe:opacity-90"
-    >
-    </div>
+    <Squircle
+        client:load
+        cornerRadius={999}
+        cornerSmoothing={1}
+        className="absolute inset-3 z-0 size-10 rounded-full bg-purple-950 transition-opacity duration-700 ease-out motion-safe:opacity-90"
+    />
     <LogoSphereClientIsland client:only="react" />
 </div>

@@ -1139,6 +1139,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-compose-refs@npm:1.1.2":
+  version: 1.1.2
+  resolution: "@radix-ui/react-compose-refs@npm:1.1.2"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/d36a9c589eb75d634b9b139c80f916aadaf8a68a7c1c4b8c6c6b88755af1a92f2e343457042089f04cc3f23073619d08bb65419ced1402e9d4e299576d970771
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-slot@npm:^1.1.2":
+  version: 1.2.3
+  resolution: "@radix-ui/react-slot@npm:1.2.3"
+  dependencies:
+    "@radix-ui/react-compose-refs": "npm:1.1.2"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/5913aa0d760f505905779515e4b1f0f71a422350f077cc8d26d1aafe53c97f177fec0e6d7fbbb50d8b5e498aa9df9f707ca75ae3801540c283b26b0136138eef
+  languageName: node
+  linkType: hard
+
 "@react-spring/animated@npm:~9.7.5":
   version: 9.7.5
   resolution: "@react-spring/animated@npm:9.7.5"
@@ -1529,6 +1557,18 @@ __metadata:
   version: 10.0.2
   resolution: "@shikijs/vscode-textmate@npm:10.0.2"
   checksum: 10c0/36b682d691088ec244de292dc8f91b808f95c89466af421cf84cbab92230f03c8348649c14b3251991b10ce632b0c715e416e992dd5f28ff3221dc2693fd9462
+  languageName: node
+  linkType: hard
+
+"@squircle-js/react@npm:^1.2.18":
+  version: 1.2.18
+  resolution: "@squircle-js/react@npm:1.2.18"
+  dependencies:
+    "@radix-ui/react-slot": "npm:^1.1.2"
+    figma-squircle: "npm:1.1.0"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18 || ^19
+  checksum: 10c0/72756c6e9244370b12f2bcbad199f41e930a7b9895e394960bc19cb6f1579f1935b1e70bd00871ae812bd7eb1d4e41f510bd7865f9f9358351a67fce6b92e998
   languageName: node
   linkType: hard
 
@@ -2845,6 +2885,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"figma-squircle@npm:1.1.0":
+  version: 1.1.0
+  resolution: "figma-squircle@npm:1.1.0"
+  checksum: 10c0/2879c5d69ad1908d4c76b4e7dc87a1d72cd023d601bd31b9d38b219558867dd8d5a7953e25a8ae7753344a79d412e85d3ecbda4df7a5a2243509d138b5b62aed
+  languageName: node
+  linkType: hard
+
 "fill-range@npm:^7.1.1":
   version: 7.1.1
   resolution: "fill-range@npm:7.1.1"
@@ -3847,6 +3894,7 @@ __metadata:
     "@fontsource/public-sans": "npm:^5.2.7"
     "@react-three/drei": "npm:^9.114.6"
     "@react-three/fiber": "npm:^8.15.18"
+    "@squircle-js/react": "npm:^1.2.18"
     "@types/react": "npm:^18.3.11"
     "@types/react-dom": "npm:^18.3.0"
     "@types/three": "npm:^0.180.0"

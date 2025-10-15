@@ -18,6 +18,7 @@
     "@fontsource/public-sans": "^5.2.7",
     "@react-three/drei": "^9.114.6",
     "@react-three/fiber": "^8.15.18",
+    "@squircle-js/react": "^1.2.18",
     "astro": "^4.16.13",
     "clsx": "^2.1.1",
     "lucide-react": "^0.454.0",
