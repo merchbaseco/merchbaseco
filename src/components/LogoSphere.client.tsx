@@ -1,3 +1,4 @@
+import { Squircle } from "@/components/ui/Squircle";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 
@@ -5,7 +6,11 @@ import { HueShiftingSphere } from "@/components/three/HueShiftingSphere";
 
 export function LogoSphereClient() {
   return (
-    <div className="absolute inset-0 z-10 overflow-hidden rounded-2xl squircle">
+    <Squircle
+      cornerRadius={16}
+      cornerSmoothing={0.8}
+      className="absolute inset-0 z-10 overflow-hidden rounded-2xl"
+    >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ alpha: true }}
@@ -19,6 +24,6 @@ export function LogoSphereClient() {
         <HueShiftingSphere />
         <Environment preset="studio" />
       </Canvas>
-    </div>
+    </Squircle>
   );
 }

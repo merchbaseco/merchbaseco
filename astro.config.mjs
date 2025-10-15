@@ -13,4 +13,17 @@ export default defineConfig({
   alias: {
     "@": "./src",
   },
+  vite: {
+    resolve: {
+      alias: {
+        "@squircle-js/react": "@squircle-js/react/dist/index.mjs",
+      },
+    },
+    optimizeDeps: {
+      exclude: ["@squircle-js/react"],
+    },
+    ssr: {
+      noExternal: ["@squircle-js/react"],
+    },
+  },
 });
