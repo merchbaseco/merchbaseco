@@ -5,7 +5,7 @@ import { HueShiftingSphere } from "@/components/three/HueShiftingSphere";
 
 export function LogoSphereClient() {
   return (
-    <div className="absolute inset-0 z-10 overflow-hidden rounded-2xl">
+    <div className="absolute inset-0 z-10 overflow-hidden rounded-2xl squircle">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ alpha: true }}
