@@ -816,6 +816,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hugeicons/core-free-icons@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@hugeicons/core-free-icons@npm:1.1.0"
+  checksum: 10c0/89c008ff30116f4d4c23cc2bfd73fb535bb5cf48693c048201b21e31146d147598a77d48e2b3e4f80c37616bfaf6b7686d74ce8ed4c73b8f49d05072d4fee437
+  languageName: node
+  linkType: hard
+
+"@hugeicons/react@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@hugeicons/react@npm:1.1.1"
+  peerDependencies:
+    react: ">=16.0.0"
+  checksum: 10c0/d8f9086689670d88233b079cc6c9672a479be6854f4e242683ab59a8cd6a5ac6bcaa3b4870cb2927f26399fccd0a294a62b64343ba9982a3924bff06e10f459d
+  languageName: node
+  linkType: hard
+
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
@@ -3892,6 +3908,8 @@ __metadata:
     "@biomejs/biome": "npm:^1.9.4"
     "@fontsource/bricolage-grotesque": "npm:^5.2.10"
     "@fontsource/public-sans": "npm:^5.2.7"
+    "@hugeicons/core-free-icons": "npm:^1.1.0"
+    "@hugeicons/react": "npm:^1.1.1"
     "@react-three/drei": "npm:^9.114.6"
     "@react-three/fiber": "npm:^8.15.18"
     "@squircle-js/react": "npm:^1.2.18"
