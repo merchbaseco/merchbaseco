@@ -4,197 +4,265 @@ import LogoSphere from "@/components/LogoSphere.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  recentPosts?: Array<CollectionEntry<"blog">>;
+    recentPosts?: Array<CollectionEntry<"blog">>;
 }
 
 const { recentPosts = [] } = Astro.props as Props;
 
 const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+    date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
 ---
 
 <div class="min-h-screen bg-white">
-  <header class="px-8 py-8">
-    <div class="mb-12 flex items-center gap-4">
-      <LogoSphere />
-      <h1 class="font-display text-5xl font-extrabold tracking-tight">MerchBase</h1>
-    </div>
+    <header class="px-8 py-8">
+        <div class="mb-12 flex items-center gap-4">
+            <LogoSphere />
+            <h1 class="font-display text-5xl font-extrabold tracking-tight">
+                MerchBase
+            </h1>
+        </div>
 
-    <div class="mb-8 max-w-2xl">
-      <h2 class="mb-8 text-5xl font-bold leading-tight">
-        We are a research and product studio for print on demand sellers. Quality, ethics, and community are our core values.
-      </h2>
-    </div>
+        <div class="mb-8 max-w-2xl">
+            <h2 class="mb-8 text-5xl font-bold leading-tight">
+                We are a research and product studio for print on demand
+                sellers. Quality, ethics, and community are our core values.
+            </h2>
+        </div>
 
-    <nav class="flex flex-col gap-2 text-lg">
-      <a href="#" class="transition-opacity hover:opacity-70">Sign in</a>
-      <a href="#" class="transition-opacity hover:opacity-70">Create account</a>
-      <a href="#" class="transition-opacity hover:opacity-70">About</a>
-      <a href="/blog" class="transition-opacity hover:opacity-70">Blog</a>
-    </nav>
-  </header>
-
-  <main class="px-8 pb-16">
-    <div class="grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <Squircle
-        client:load
-        cornerRadius={24}
-        cornerSmoothing={0.8}
-        className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-blue-400 to-blue-600 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
-      >
-        <div>
-          <div class="mb-6 flex items-start justify-between">
-            <Squircle
-              client:load
-              cornerRadius={16}
-              cornerSmoothing={0.8}
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+        <nav class="flex flex-col gap-2 text-lg">
+            <a href="#" class="transition-opacity hover:opacity-70">Sign in</a>
+            <a href="#" class="transition-opacity hover:opacity-70"
+                >Create account</a
             >
-              <div class="text-3xl font-bold text-blue-600">R</div>
-            </Squircle>
-            <svg class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 7h10v10" />
-              <path d="M7 17 17 7" />
-            </svg>
-          </div>
-          <h3 class="mb-2 text-3xl font-bold">RankWrangler</h3>
-          <p class="mb-6 text-sm text-white/80">2025</p>
-        </div>
+            <a href="#" class="transition-opacity hover:opacity-70">About</a>
+            <a href="/blog" class="transition-opacity hover:opacity-70">Blog</a>
+        </nav>
+    </header>
 
-        <div>
-          <p class="mb-4 leading-relaxed text-white/90">
-            A powerful analytics and optimization tool for Amazon Merch on Demand sellers. It tracks product rankings, keyword performance, and ad results in real time—helping creators understand what's working, spot trends early, and outsmart the competition.
-          </p>
-          <p class="text-sm text-white/70">
-            Designed for speed and clarity, RankWrangler turns raw data into easy-to-read dashboards that reveal exactly how your listings perform across keywords, categories, and campaigns.
-          </p>
-        </div>
-      </Squircle>
-
-      <Squircle
-        client:load
-        cornerRadius={24}
-        cornerSmoothing={0.8}
-        className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-amber-100 to-amber-200 p-8 text-gray-900 transition-transform duration-200 ease-out hover:scale-[1.02]"
-      >
-        <div>
-          <div class="mb-6 flex items-start justify-between">
+    <main class="px-8 pb-16">
+        <div
+            class="grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
             <Squircle
-              client:load
-              cornerRadius={16}
-              cornerSmoothing={0.8}
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+                client:load
+                cornerRadius={30}
+                cornerSmoothing={1}
+                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between bg-gradient-to-br from-blue-400 to-blue-600 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
             >
-              <div class="text-3xl">🎨</div>
-            </Squircle>
-            <svg class="h-6 w-6 text-gray-700 opacity-70 transition-opacity group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 7h10v10" />
-              <path d="M7 17 17 7" />
-            </svg>
-          </div>
-          <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
-          <p class="mb-6 text-sm text-gray-600">2025</p>
-        </div>
-
-        <div>
-          <p class="leading-relaxed text-gray-700">
-            More tools for print on demand sellers are in development. Stay tuned for announcements.
-          </p>
-        </div>
-      </Squircle>
-
-      <Squircle
-        client:load
-        cornerRadius={24}
-        cornerSmoothing={0.8}
-        className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-400 to-teal-500 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
-      >
-        <div>
-          <div class="mb-6 flex items-start justify-between">
-            <Squircle
-              client:load
-              cornerRadius={16}
-              cornerSmoothing={0.8}
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
-            >
-              <div class="text-3xl">🚀</div>
-            </Squircle>
-            <svg class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 7h10v10" />
-              <path d="M7 17 17 7" />
-            </svg>
-          </div>
-          <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
-          <p class="mb-6 text-sm text-white/80">2025</p>
-        </div>
-
-        <div>
-          <p class="leading-relaxed text-white/90">
-            Building the future of ethical and sustainable print on demand commerce.
-          </p>
-        </div>
-      </Squircle>
-    </div>
-
-    {recentPosts.length > 0 && (
-      <section class="mx-auto mt-20 w-full max-w-7xl">
-        <div class="mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-          <div>
-            <h2 class="text-3xl font-bold text-gray-900">Latest from the blog</h2>
-            <p class="mt-2 text-base text-gray-600">
-              Insights, product updates, and experiments from the MerchBase team.
-            </p>
-          </div>
-          <a
-            class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
-            href="/blog"
-          >
-            View all posts
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {recentPosts.map((post) => (
-            <Squircle
-              client:load
-              asChild
-              cornerRadius={24}
-              cornerSmoothing={0.8}
-              key={post.id}
-            >
-              <article
-                class="group flex h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-                    {formatDate(post.data.publishDate)}
-                  </p>
-                  <h3 class="mt-3 text-xl font-semibold text-gray-900">{post.data.title}</h3>
-                  <p class="mt-3 text-sm text-gray-600">{post.data.description}</p>
+                    <div class="mb-6 flex items-start justify-between">
+                        <Squircle
+                            client:load
+                            cornerRadius={16}
+                            cornerSmoothing={0.8}
+                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+                        >
+                            <div class="text-3xl font-bold text-blue-600">
+                                R
+                            </div>
+                        </Squircle>
+                        <svg
+                            class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M7 7h10v10"></path>
+                            <path d="M7 17 17 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-2 text-3xl font-bold">RankWrangler</h3>
+                    <p class="mb-6 text-sm text-white/80">2025</p>
                 </div>
-                <a
-                  class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
-                  href={`/blog/${post.slug}/`}
-                >
-                  Read post
-                  <svg class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </a>
-              </article>
+
+                <div>
+                    <p class="mb-4 leading-relaxed text-white/90">
+                        A powerful analytics and optimization tool for Amazon
+                        Merch on Demand sellers. It tracks product rankings,
+                        keyword performance, and ad results in real time—helping
+                        creators understand what's working, spot trends early,
+                        and outsmart the competition.
+                    </p>
+                    <p class="text-sm text-white/70">
+                        Designed for speed and clarity, RankWrangler turns raw
+                        data into easy-to-read dashboards that reveal exactly
+                        how your listings perform across keywords, categories,
+                        and campaigns.
+                    </p>
+                </div>
             </Squircle>
-          ))}
+
+            <Squircle
+                client:load
+                cornerRadius={24}
+                cornerSmoothing={0.8}
+                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-amber-100 to-amber-200 p-8 text-gray-900 transition-transform duration-200 ease-out hover:scale-[1.02]"
+            >
+                <div>
+                    <div class="mb-6 flex items-start justify-between">
+                        <Squircle
+                            client:load
+                            cornerRadius={16}
+                            cornerSmoothing={0.8}
+                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+                        >
+                            <div class="text-3xl">🎨</div>
+                        </Squircle>
+                        <svg
+                            class="h-6 w-6 text-gray-700 opacity-70 transition-opacity group-hover:opacity-100"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M7 7h10v10"></path>
+                            <path d="M7 17 17 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
+                    <p class="mb-6 text-sm text-gray-600">2025</p>
+                </div>
+
+                <div>
+                    <p class="leading-relaxed text-gray-700">
+                        More tools for print on demand sellers are in
+                        development. Stay tuned for announcements.
+                    </p>
+                </div>
+            </Squircle>
+
+            <Squircle
+                client:load
+                cornerRadius={24}
+                cornerSmoothing={0.8}
+                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-400 to-teal-500 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
+            >
+                <div>
+                    <div class="mb-6 flex items-start justify-between">
+                        <Squircle
+                            client:load
+                            cornerRadius={16}
+                            cornerSmoothing={0.8}
+                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+                        >
+                            <div class="text-3xl">🚀</div>
+                        </Squircle>
+                        <svg
+                            class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M7 7h10v10"></path>
+                            <path d="M7 17 17 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
+                    <p class="mb-6 text-sm text-white/80">2025</p>
+                </div>
+
+                <div>
+                    <p class="leading-relaxed text-white/90">
+                        Building the future of ethical and sustainable print on
+                        demand commerce.
+                    </p>
+                </div>
+            </Squircle>
         </div>
-      </section>
-    )}
-  </main>
+
+        {
+            recentPosts.length > 0 && (
+                <section class="mx-auto mt-20 w-full max-w-7xl">
+                    <div class="mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-900">
+                                Latest from the blog
+                            </h2>
+                            <p class="mt-2 text-base text-gray-600">
+                                Insights, product updates, and experiments from
+                                the MerchBase team.
+                            </p>
+                        </div>
+                        <a
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
+                            href="/blog"
+                        >
+                            View all posts
+                            <svg
+                                class="h-4 w-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M5 12h14" />
+                                <path d="m12 5 7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {recentPosts.map((post) => (
+                            <Squircle
+                                client:load
+                                asChild
+                                cornerRadius={24}
+                                cornerSmoothing={0.8}
+                                key={post.id}
+                            >
+                                <article class="group flex h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                                    <div>
+                                        <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+                                            {formatDate(post.data.publishDate)}
+                                        </p>
+                                        <h3 class="mt-3 text-xl font-semibold text-gray-900">
+                                            {post.data.title}
+                                        </h3>
+                                        <p class="mt-3 text-sm text-gray-600">
+                                            {post.data.description}
+                                        </p>
+                                    </div>
+                                    <a
+                                        class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
+                                        href={`/blog/${post.slug}/`}
+                                    >
+                                        Read post
+                                        <svg
+                                            class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path d="M5 12h14" />
+                                            <path d="m12 5 7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </article>
+                            </Squircle>
+                        ))}
+                    </div>
+                </section>
+            )
+        }
+    </main>
 </div>

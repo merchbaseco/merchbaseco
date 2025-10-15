@@ -4,11 +4,9 @@ import { LogoSphereClient as LogoSphereClientIsland } from "@/components/LogoSph
 ---
 
 <div class="relative h-16 w-16">
-    <Squircle
-        client:load
-        cornerRadius={999}
-        cornerSmoothing={1}
-        className="absolute inset-3 z-0 size-10 rounded-full bg-purple-950 transition-opacity duration-700 ease-out motion-safe:opacity-90"
-    />
+    <div
+        class="absolute inset-3 z-0 size-10 rounded-full bg-purple-950 transition-opacity duration-700 ease-out motion-safe:opacity-90"
+    >
+    </div>
     <LogoSphereClientIsland client:only="react" />
 </div>
