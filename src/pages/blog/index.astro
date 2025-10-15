@@ -35,6 +35,8 @@ const timelineItems = posts.map((post) => {
     title: post.data.title,
   };
 });
+
+const detailHrefFor = (slug: string) => new URL(`./${slug}/`, Astro.url).pathname;
 ---
 
 <BaseLayout title="Blog · MerchBase">
@@ -96,7 +98,7 @@ const timelineItems = posts.map((post) => {
             anchor={`post-${post.slug}`}
             datetime={datetime}
             displayDate={formattedDate}
-            href={`/blog/${post.slug}/`}
+            href={detailHrefFor(post.slug)}
             tag={primaryTag}
             title={post.data.title}
             description={post.data.description}

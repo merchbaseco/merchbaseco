@@ -9,6 +9,10 @@ interface Props {
 
 const { recentPosts = [] } = Astro.props as Props;
 
+const site = Astro.site ?? new URL("http://localhost/");
+const blogIndexHref = new URL("./blog/", site).pathname;
+const blogPostHref = (slug: string) => new URL(`./blog/${slug}/`, site).pathname;
+
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
     month: "short",
@@ -39,7 +43,7 @@ const formatDate = (date: Date) =>
                 >Create account</a
             >
             <a href="#" class="transition-opacity hover:opacity-70">About</a>
-            <a href="/blog" class="transition-opacity hover:opacity-70">Blog</a>
+            <a href={blogIndexHref} class="transition-opacity hover:opacity-70">Blog</a>
         </nav>
     </header>
 
@@ -200,7 +204,7 @@ const formatDate = (date: Date) =>
                         </div>
                         <a
                             class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
-                            href="/blog"
+                            href={blogIndexHref}
                         >
                             View all posts
                             <svg
@@ -241,7 +245,7 @@ const formatDate = (date: Date) =>
                                     </div>
                                     <a
                                         class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
-                                        href={`/blog/${post.slug}/`}
+                                        href={blogPostHref(post.slug)}
                                     >
                                         Read post
                                         <svg
