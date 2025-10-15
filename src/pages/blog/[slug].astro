@@ -10,16 +10,18 @@ export async function getStaticPaths() {
   }));
 }
 
+const blogIndexHref = new URL("../", Astro.url).pathname;
+
 const slug = Astro.params.slug;
 
 if (!slug) {
-  return Astro.redirect("/blog");
+  return Astro.redirect(blogIndexHref);
 }
 
 const entry = await getEntry("blog", slug);
 
 if (!entry) {
-  return Astro.redirect("/blog");
+  return Astro.redirect(blogIndexHref);
 }
 
 const { Content } = await entry.render();
@@ -36,7 +38,7 @@ const publishedDateTime = data.publishDate.toISOString();
   <div class="bg-white">
     <main class="mx-auto max-w-4xl px-6 py-16">
       <a
-        href="/blog"
+        href={blogIndexHref}
         class="group mb-10 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition hover:text-emerald-700"
       >
         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-emerald-100 bg-white text-emerald-600 transition group-hover:border-emerald-200 group-hover:bg-emerald-50">
