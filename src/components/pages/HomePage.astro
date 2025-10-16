@@ -12,6 +12,7 @@ interface Props {
 const { recentPosts = [] } = Astro.props as Props;
 
 const site = Astro.site ?? new URL("http://localhost/");
+const aboutHref = new URL("./about/", site).pathname;
 const blogIndexHref = new URL("./blog/", site).pathname;
 const blogPostHref = (slug: string) => new URL(`./blog/${slug}/`, site).pathname;
 
@@ -91,6 +92,8 @@ const formatDate = (date: Date) =>
             <a href="#" class="transition-opacity hover:opacity-70"
                 >Create account</a
             >
+            <a href={aboutHref} class="transition-opacity hover:opacity-70">About</a>
+            <a href={blogIndexHref} class="transition-opacity hover:opacity-70">Blog</a>
         </nav>
     </header>
 

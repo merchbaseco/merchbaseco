@@ -10,6 +10,14 @@ Astro pages live in `src/pages`, layout shells sit in `src/layouts`, and shared 
 - `yarn lint`: run Biome linting across Astro, TypeScript, and JSX sources.
 - `yarn format`: apply Biome formatting rules before committing. Always run this command and resolve any Biome issues before every commit so the codebase stays consistent.
 
+## Local Development Workflow & QA Ritual
+- Install dependencies with `yarn install`. Avoid mixing package managers—stick to Yarn so the lockfile stays accurate.
+- Start the dev server with `yarn dev` and give Astro enough time to finish its initial build. Watch the terminal for 404s, Vite overlay errors, or stack traces; resolve them before continuing.
+- When validating changes, keep the dev server log visible so you can spot hot-reload warnings or runtime exceptions as they appear. If you see repeated errors, capture them in your PR notes.
+- If the browser surfaces a 404 or any runtime error, troubleshoot before proceeding—use the dev server logs, stack traces, or error overlays to identify the root cause and resolve it.
+- Always capture relevant UI screenshots after the app has fully loaded. Wait for fonts, images, and dynamic data to appear; if the page shows a loading skeleton or error state (e.g., 404), refresh or navigate until the intended view renders correctly before taking the screenshot.
+- End every change with both a screenshot of the affected page(s) and a brief analysis explaining how the image demonstrates the desired outcome.
+
 ## Coding Style & Naming Conventions
 Biome enforces two-space indentation, 100-character line width, and organized imports; run `yarn format` before pushing. Favor TypeScript across React islands and utilities, and type props with explicit interfaces. Use PascalCase for components and layouts (e.g., `HeroSection.tsx`), camelCase for functions/hooks, and kebab-case for file names in `pages/` to match route slugs. Tailwind classes should be composed with `clsx` or `tailwind-merge` when conditional logic is needed.
 
