@@ -2,9 +2,12 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
+const site = process.env.PUBLIC_SITE_URL ?? "https://merchbase.co";
+const base = process.env.PUBLIC_BASE_PATH ?? "/";
+
 export default defineConfig({
-  site: "https://merchbase-co.github.io/merchbase-co/",
-  base: "/merchbase-co/",
+  site,
+  base,
   integrations: [react(), tailwind()],
   srcDir: "./src",
   typescript: {
