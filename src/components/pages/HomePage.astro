@@ -1,6 +1,8 @@
 ---
 import { Squircle } from "@/components/ui/Squircle";
 import LogoSphere from "@/components/LogoSphere.astro";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { BookOpen01Icon, Home01Icon, InformationCircleIcon } from "@hugeicons/core-free-icons";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -24,18 +26,65 @@ const formatDate = (date: Date) =>
 
 <div class="min-h-screen bg-white">
     <header class="px-8 py-8">
-        <div class="mb-12 flex items-center gap-4">
-            <LogoSphere />
-            <h1 class="font-display text-5xl font-extrabold tracking-tight">
-                MerchBase
-            </h1>
-        </div>
+        <div class="mb-12 flex flex-col gap-8">
+            <div class="flex flex-wrap items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <LogoSphere />
+                    <h1 class="font-display text-5xl font-extrabold tracking-tight">
+                        MerchBase
+                    </h1>
+                </div>
+                <nav
+                    class="flex flex-wrap items-center gap-2 font-display text-sm font-medium text-gray-600 sm:gap-4 sm:text-base"
+                >
+                    <a
+                        href="/"
+                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+                    >
+                        <HugeiconsIcon
+                            icon={Home01Icon}
+                            size={40}
+                            strokeWidth={1.5}
+                            color="currentColor"
+                            className="transition-colors"
+                        />
+                        <span>Home</span>
+                    </a>
+                    <a
+                        href={blogIndexHref}
+                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+                    >
+                        <HugeiconsIcon
+                            icon={BookOpen01Icon}
+                            size={40}
+                            strokeWidth={1.5}
+                            color="currentColor"
+                            className="transition-colors"
+                        />
+                        <span>Blog</span>
+                    </a>
+                    <a
+                        href="#about"
+                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+                    >
+                        <HugeiconsIcon
+                            icon={InformationCircleIcon}
+                            size={40}
+                            strokeWidth={1.5}
+                            color="currentColor"
+                            className="transition-colors"
+                        />
+                        <span>About</span>
+                    </a>
+                </nav>
+            </div>
 
-        <div class="mb-8 max-w-2xl">
-            <h2 class="mb-8 text-5xl font-bold leading-tight">
-                We are a research and product studio for print on demand
-                sellers. Quality, ethics, and community are our core values.
-            </h2>
+            <div class="max-w-2xl" id="about">
+                <h2 class="mb-8 text-5xl font-bold leading-tight">
+                    We are a research and product studio for print on demand
+                    sellers. Quality, ethics, and community are our core values.
+                </h2>
+            </div>
         </div>
 
         <nav class="flex flex-col gap-2 text-lg">

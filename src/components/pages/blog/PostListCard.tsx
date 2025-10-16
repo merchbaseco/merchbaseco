@@ -77,6 +77,7 @@ export function PostListCard({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true"
             >
               <title>Arrow icon</title>
               <path d="M5 12h14" />
