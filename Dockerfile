@@ -4,7 +4,7 @@ WORKDIR /app
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 # Install dependencies using the lockfile for reproducibility.
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 RUN corepack enable \
     && yarn install --immutable
 
