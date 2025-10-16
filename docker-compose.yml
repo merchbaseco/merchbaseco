@@ -1,0 +1,7 @@
+services:
+  merchbaseco:
+    build:
+      context: .
+    image: ghcr.io/merchbaseco/merchbaseco:local
+    ports:
+      - "8080:80"
