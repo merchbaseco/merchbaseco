@@ -21,6 +21,8 @@ Astro pages live in `src/pages`, layout shells sit in `src/layouts`, and shared 
 ## Coding Style & Naming Conventions
 Biome enforces two-space indentation, 100-character line width, and organized imports; run `yarn format` before pushing. Favor TypeScript across React islands and utilities, and type props with explicit interfaces. Use PascalCase for components and layouts (e.g., `HeroSection.tsx`), camelCase for functions/hooks, and kebab-case for file names in `pages/` to match route slugs. Tailwind classes should be composed with `clsx` or `tailwind-merge` when conditional logic is needed.
 
+- Astro component and page filenames must use lowercase kebab-case (e.g., `logo.astro`, `site-header.astro`).
+
 ## Testing Guidelines
 No automated suite ships today—new work should include targeted tests where practical. Prefer lightweight component tests (e.g., Vitest + @testing-library/react) for React islands and integration smoke tests for critical Astro routes. If you add a test runner, document the command in `package.json` (e.g., `yarn test`) and ensure it runs in CI before requesting review. For manual QA, capture viewport screenshots or short Looms when touching interactive 3D scenes.
 

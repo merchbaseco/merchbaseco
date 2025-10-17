@@ -1,6 +1,6 @@
 ---
 import "@/styles/global.css";
-import SiteHeader from "@/components/site_header.astro";
+import Header from "@/components/header.astro";
 
 interface Props {
   title?: string;
@@ -15,13 +15,13 @@ const { title = "MerchBase" } = Astro.props as Props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white text-gray-900 antialiased p-6">
     <noscript>
       <style>
         {`[data-squircle] { clip-path: none !important; border-radius: var(--squircle-fallback-radius, 0px) !important; }`}
       </style>
     </noscript>
-    <SiteHeader />
+    <Header />
     <slot />
   </body>
 </html>

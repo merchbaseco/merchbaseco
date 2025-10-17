@@ -1,55 +1,86 @@
 ---
 import { Squircle } from "@/components/ui/Squircle";
+import { HugeiconsIcon } from "@merchbaseco/icons";
+import { Shirt01Icon } from "@merchbaseco/icons/core-solid-rounded";
+import {
+    BookOpen01Icon,
+    Home01Icon,
+    InformationCircleIcon,
+} from "@merchbaseco/icons/core-stroke-rounded";
 import type { CollectionEntry } from "astro:content";
+import NavItem from "../nav-item.astro";
+import Logo from "@/components/logo.astro";
+
+const isHomePage = Astro.url.pathname === "/";
+const isBlogPage = Astro.url.pathname.startsWith("/blog");
+const isAboutPage = Astro.url.pathname.startsWith("/about");
 
 interface Props {
-  recentPosts?: Array<CollectionEntry<"blog">>;
+    recentPosts?: Array<CollectionEntry<"blog">>;
 }
 
 const { recentPosts = [] } = Astro.props as Props;
 
 const site = Astro.site ?? new URL("http://localhost/");
+const homeHref = new URL("./", site).pathname;
 const aboutHref = new URL("./about/", site).pathname;
+const blogHref = new URL("./blog/", site).pathname;
 const blogIndexHref = new URL("./blog/", site).pathname;
-const blogPostHref = (slug: string) => new URL(`./blog/${slug}/`, site).pathname;
+const blogPostHref = (slug: string) =>
+    new URL(`./blog/${slug}/`, site).pathname;
 
 const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+    date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
 ---
 
-<div class="min-h-screen bg-white">
-    <header class="px-8 pb-12 pt-20">
-        <div class="mx-auto flex max-w-7xl flex-col gap-10">
-            <div class="max-w-2xl" id="about">
-                <h2 class="mb-8 text-5xl font-bold leading-12">
-                    We are a research and product studio for print on demand
-                    sellers. Quality, beauty, ethics, and community are our core
-                    values.
-                </h2>
-            </div>
+<div class="min-h-screen bg-white px-3">
+    <div class="w-full mt-12">
+        <h2 class="text-5xl font-normal leading-12">
+            Bespoke creations for <div
+                class="bg-gray-100 rounded-2xl inline-flex text-[42px] gap-2 text-orange-600 font-semibold items-center relative -bottom-1 py-2 px-2"
+            >
+                <HugeiconsIcon
+                    icon={Shirt01Icon}
+                    size={40}
+                    color="currentColor"
+                    className="transition-colors"
+                    aria-hidden="true"
+                /><div>Amazon Merch</div>
+            </div> designers.
+        </h2>
+        <h2 class="text-5xl mt-3 font-normal leading-12">
+            Rooted in quality, beauty, and integrity.
+        </h2>
+    </div>
 
-            <nav class="flex flex-col gap-2 text-lg">
-                <a href="#" class="transition-opacity hover:opacity-70"
-                    >Sign in</a
-                >
-                <a href="#" class="transition-opacity hover:opacity-70"
-                    >Create account</a
-                >
-                <a href={aboutHref} class="transition-opacity hover:opacity-70"
-                    >About</a
-                >
-                <a href={blogIndexHref} class="transition-opacity hover:opacity-70"
-                    >Blog</a
-                >
-            </nav>
-        </div>
-    </header>
+    <nav class="mt-12">
+        <nav class="flex flex-wrap items-center gap-2 font-light text-gray-800">
+            <NavItem
+                href={homeHref}
+                icon={Home01Icon}
+                label="Home"
+                isCurrent={isHomePage}
+            />
+            <NavItem
+                href={blogHref}
+                icon={BookOpen01Icon}
+                label="Blog"
+                isCurrent={isBlogPage}
+            />
+            <NavItem
+                href={aboutHref}
+                icon={InformationCircleIcon}
+                label="About"
+                isCurrent={isAboutPage}
+            />
+        </nav>
+    </nav>
 
-    <main class="px-8 pb-16">
+    <main class="mt-12">
         <div
             class="grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >

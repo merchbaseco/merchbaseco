@@ -1,0 +1,28 @@
+---
+import { HugeiconsIcon } from "@merchbaseco/icons";
+
+interface Props {
+    href: string;
+    icon: Parameters<typeof HugeiconsIcon>[0]["icon"];
+    label: string;
+    isCurrent?: boolean;
+}
+
+const { href, icon, label, isCurrent = false } = Astro.props as Props;
+const ariaCurrent = isCurrent ? "page" : undefined;
+---
+
+<a
+    href={href}
+    class="group inline-flex items-center gap-2 rounded-2xl px-4 py-2 transition hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+    aria-current={ariaCurrent}
+>
+    <HugeiconsIcon
+        icon={icon}
+        size={26}
+        color="currentColor"
+        className="transition-colors opacity-90"
+        aria-hidden="true"
+    />
+    <span>{label}</span>
+</a>

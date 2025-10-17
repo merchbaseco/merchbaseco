@@ -1,10 +1,9 @@
-import { Squircle } from "@/components/ui/Squircle";
-import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
-
 import { HueShiftingSphere } from "@/components/three/HueShiftingSphere";
+import { Squircle } from "@/components/ui/Squircle";
+import { Environment } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 
-export function LogoSphereClient() {
+export function Logo() {
   return (
     <Squircle
       cornerRadius={16}

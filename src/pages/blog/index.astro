@@ -1,239 +1,303 @@
 ---
-import BaseLayout from "@/layouts/base_layout.astro";
+import BaseLayout from "@/layouts/layout.astro";
 import { PostListCard } from "@/components/pages/blog/PostListCard";
 import { Card } from "@/components/ui/Card";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+    (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 );
 
 const formatFullDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+    date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    });
 
 const gradientPalette = [
-  "radial-gradient(140% 120% at 0% 20%, rgba(216, 240, 255, 0.95) 0%, rgba(255, 250, 235, 0.9) 45%, rgba(209, 247, 226, 0.85) 100%)",
-  "radial-gradient(140% 140% at 15% 15%, rgba(255, 236, 179, 0.95) 0%, rgba(255, 245, 230, 0.88) 45%, rgba(210, 240, 255, 0.85) 100%)",
-  "radial-gradient(140% 140% at 10% 10%, rgba(255, 213, 220, 0.9) 0%, rgba(254, 245, 230, 0.85) 45%, rgba(226, 242, 255, 0.85) 100%)",
-  "radial-gradient(140% 130% at 20% 0%, rgba(210, 241, 255, 0.92) 0%, rgba(237, 244, 255, 0.85) 45%, rgba(223, 252, 235, 0.9) 100%)",
+    "radial-gradient(140% 120% at 0% 20%, rgba(216, 240, 255, 0.95) 0%, rgba(255, 250, 235, 0.9) 45%, rgba(209, 247, 226, 0.85) 100%)",
+    "radial-gradient(140% 140% at 15% 15%, rgba(255, 236, 179, 0.95) 0%, rgba(255, 245, 230, 0.88) 45%, rgba(210, 240, 255, 0.85) 100%)",
+    "radial-gradient(140% 140% at 10% 10%, rgba(255, 213, 220, 0.9) 0%, rgba(254, 245, 230, 0.85) 45%, rgba(226, 242, 255, 0.85) 100%)",
+    "radial-gradient(140% 130% at 20% 0%, rgba(210, 241, 255, 0.92) 0%, rgba(237, 244, 255, 0.85) 45%, rgba(223, 252, 235, 0.9) 100%)",
 ];
 
-const accentForIndex = (index: number) => gradientPalette[index % gradientPalette.length];
+const accentForIndex = (index: number) =>
+    gradientPalette[index % gradientPalette.length];
 
-const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags ?? []))).sort((a, b) =>
-  a.localeCompare(b),
-);
+const tags = Array.from(
+    new Set(posts.flatMap((post) => post.data.tags ?? [])),
+).sort((a, b) => a.localeCompare(b));
 
 const selectedTag = Astro.url.searchParams.get("tag") ?? "";
 
 const filteredPosts = selectedTag
-  ? posts.filter((post) => (post.data.tags ?? []).includes(selectedTag))
-  : posts;
+    ? posts.filter((post) => (post.data.tags ?? []).includes(selectedTag))
+    : posts;
 
 const isAllActive = !selectedTag;
 const formatTagLabel = (tag: string) =>
-  tag.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+    tag.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 const noPostsMessage = selectedTag
-  ? `We haven't published anything under ${formatTagLabel(selectedTag)} yet. Try another category.`
-  : "We haven't published any updates here just yet. Check back soon.";
+    ? `We haven't published anything under ${formatTagLabel(selectedTag)} yet. Try another category.`
+    : "We haven't published any updates here just yet. Check back soon.";
 
 const [featuredPost, ...remainingPosts] = filteredPosts;
 const hasMoreStories = remainingPosts.length > 0;
 
 const filterHrefFor = (tag?: string) => {
-  const url = new URL(Astro.url);
+    const url = new URL(Astro.url);
 
-  if (tag) {
-    url.searchParams.set("tag", tag);
-  } else {
-    url.searchParams.delete("tag");
-  }
+    if (tag) {
+        url.searchParams.set("tag", tag);
+    } else {
+        url.searchParams.delete("tag");
+    }
 
-  url.hash = "";
+    url.hash = "";
 
-  return url.pathname + (url.search ? url.search : "");
+    return url.pathname + (url.search ? url.search : "");
 };
 
-const detailHrefFor = (slug: string) => new URL(`./${slug}/`, Astro.url).pathname;
+const detailHrefFor = (slug: string) =>
+    new URL(`./${slug}/`, Astro.url).pathname;
 ---
 
 <BaseLayout title="Blog · MerchBase">
-  <main class="mx-auto flex max-w-6xl flex-col gap-16 px-6 py-16">
-    <header class="space-y-6 text-left">
-      <p class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-400">Product &amp; Process</p>
-      <h1 class="text-4xl font-semibold leading-tight text-gray-900 sm:text-5xl">
-        Thoughts on product, marketing, and engineering.
-      </h1>
-      <p class="max-w-3xl text-lg text-gray-600">
-        From roadmap updates to launch recaps, this is where we unpack how the MerchBase team builds tools for modern merch
-        operations.
-      </p>
-    </header>
-
-    {featuredPost ? (
-      <a
-        href={detailHrefFor(featuredPost.slug)}
-        class="group focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
-      >
-        <Card class="overflow-hidden border-gray-100 !p-0 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg">
-          <div class="grid gap-0 lg:grid-cols-[1.6fr_1fr]">
-            <div class="relative bg-gray-100">
-              <div
-                aria-hidden="true"
-                class="aspect-[16/10] w-full"
-                style={`background-image: ${accentForIndex(0)}`}
-              />
-              <div class="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_65%)] mix-blend-lighten" />
-            </div>
-
-            <div class="flex flex-col justify-between p-8 sm:p-10">
-              <div class="space-y-6">
-                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-gray-400">
-                  {featuredPost.data.tags?.length ? (
-                    <span class="rounded-full border border-gray-200 bg-white px-3 py-1 text-[11px] tracking-[0.35em] text-gray-500">
-                      {formatTagLabel(featuredPost.data.tags[0])}
-                    </span>
-                  ) : null}
-                  <time datetime={featuredPost.data.publishDate.toISOString()}>
-                    {formatFullDate(featuredPost.data.publishDate)}
-                  </time>
-                </div>
-
-                <h2 class="text-3xl font-semibold leading-tight text-gray-900 transition group-hover:text-gray-700 sm:text-4xl">
-                  {featuredPost.data.title}
-                </h2>
-                <p class="text-base text-gray-600 sm:text-lg">{featuredPost.data.description}</p>
-              </div>
-
-              <span class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition group-hover:text-emerald-700">
-                Read the story
-                <svg
-                  class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </div>
-          </div>
-        </Card>
-      </a>
-    ) : (
-      <Card class="border-dashed border-gray-200 text-center">
-        <p class="text-gray-500">We&apos;re drafting our next story. Check back soon.</p>
-      </Card>
-    )}
-
-    {tags.length ? (
-      <section aria-labelledby="blog-categories" class="space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <h2 id="blog-categories" class="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500">
-            Categories
-          </h2>
-          {selectedTag && (
-            <a class="text-sm font-medium text-emerald-600 hover:text-emerald-700" href={filterHrefFor()}>
-              Clear filter
-            </a>
-          )}
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <a
-            aria-current={isAllActive ? "page" : undefined}
-            href={filterHrefFor()}
-            class="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
-          >
-            <Card
-              class={`h-full !bg-white ${
-                isAllActive ? "border-emerald-300" : "border-gray-100"
-              } text-left transition hover:-translate-y-1 hover:shadow-md`}
-              style={`background-image: ${accentForIndex(1)}`}
+    <main class="mx-auto flex max-w-6xl flex-col gap-16 px-6 py-16">
+        <header class="space-y-6 text-left">
+            <p
+                class="text-xs font-semibold uppercase tracking-[0.4em] text-gray-400"
             >
-              <p class="text-sm font-semibold text-gray-900">All updates</p>
-              <p class="mt-2 text-sm text-gray-600">Every launch, recap, and experiment.</p>
-            </Card>
-          </a>
-
-          {tags.map((tag, index) => {
-            const isActive = selectedTag === tag;
-
-            return (
-              <a
-                aria-current={isActive ? "page" : undefined}
-                key={tag}
-                href={filterHrefFor(tag)}
-                class="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
-              >
-                <Card
-                  class={`h-full !bg-white ${
-                    isActive ? "border-emerald-300" : "border-gray-100"
-                  } text-left transition hover:-translate-y-1 hover:shadow-md`}
-                  style={`background-image: ${accentForIndex(index + 2)}`}
-                >
-                  <p class="text-sm font-semibold text-gray-900">{formatTagLabel(tag)}</p>
-                  <p class="mt-2 text-sm text-gray-600">Stories focused on {formatTagLabel(tag)}.</p>
-                </Card>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    ) : null}
-
-    <section aria-labelledby="latest-posts" class="space-y-8">
-      <div class="space-y-2">
-        <div class="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.35em] text-gray-400">Latest posts</p>
-            <h2 id="latest-posts" class="text-2xl font-semibold text-gray-900">Fresh from the team</h2>
-          </div>
-          {selectedTag && (
-            <p class="text-sm text-gray-500">Showing posts in {formatTagLabel(selectedTag)}.</p>
-          )}
-        </div>
-        <p class="max-w-2xl text-sm text-gray-600">
-          Dive into product walkthroughs, community recaps, and lessons from scaling merch operations.
-        </p>
-      </div>
-
-      {filteredPosts.length ? (
-        hasMoreStories ? (
-          <div class="space-y-6">
-            {remainingPosts.map((post, index) => (
-              <PostListCard
-                key={post.id}
-                accent={accentForIndex(index + 3)}
-                datetime={post.data.publishDate.toISOString()}
-                description={post.data.description}
-                displayDate={formatFullDate(post.data.publishDate)}
-                href={detailHrefFor(post.slug)}
-                tag={post.data.tags?.[0] ? formatTagLabel(post.data.tags[0]) : undefined}
-                title={post.data.title}
-              />
-            ))}
-          </div>
-        ) : (
-          <Card class="border border-emerald-100 bg-emerald-50/60 text-center">
-            <p class="text-sm text-emerald-700">
-              You&apos;re all caught up on these updates. Explore other categories to keep reading.
+                Product &amp; Process
             </p>
-          </Card>
-        )
-      ) : (
-        <Card class="border-dashed border-gray-200 text-center">
-          <p class="text-gray-500">{noPostsMessage}</p>
-        </Card>
-      )}
-    </section>
-  </main>
+            <h1
+                class="text-4xl font-semibold leading-tight text-gray-900 sm:text-5xl"
+            >
+                Thoughts on product, marketing, and engineering.
+            </h1>
+            <p class="max-w-3xl text-lg text-gray-600">
+                From roadmap updates to launch recaps, this is where we unpack
+                how the MerchBase team builds tools for modern merch operations.
+            </p>
+        </header>
+
+        {
+            featuredPost ? (
+                <a
+                    href={detailHrefFor(featuredPost.slug)}
+                    class="group focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+                >
+                    <Card class="overflow-hidden border-gray-100 !p-0 transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg">
+                        <div class="grid gap-0 lg:grid-cols-[1.6fr_1fr]">
+                            <div class="relative bg-gray-100">
+                                <div
+                                    aria-hidden="true"
+                                    class="aspect-[16/10] w-full"
+                                    style={`background-image: ${accentForIndex(0)}`}
+                                />
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_65%)] mix-blend-lighten" />
+                            </div>
+
+                            <div class="flex flex-col justify-between p-8 sm:p-10">
+                                <div class="space-y-6">
+                                    <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-gray-400">
+                                        {featuredPost.data.tags?.length ? (
+                                            <span class="rounded-full border border-gray-200 bg-white px-3 py-1 text-[11px] tracking-[0.35em] text-gray-500">
+                                                {formatTagLabel(
+                                                    featuredPost.data.tags[0],
+                                                )}
+                                            </span>
+                                        ) : null}
+                                        <time
+                                            datetime={featuredPost.data.publishDate.toISOString()}
+                                        >
+                                            {formatFullDate(
+                                                featuredPost.data.publishDate,
+                                            )}
+                                        </time>
+                                    </div>
+
+                                    <h2 class="text-3xl font-semibold leading-tight text-gray-900 transition group-hover:text-gray-700 sm:text-4xl">
+                                        {featuredPost.data.title}
+                                    </h2>
+                                    <p class="text-base text-gray-600 sm:text-lg">
+                                        {featuredPost.data.description}
+                                    </p>
+                                </div>
+
+                                <span class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition group-hover:text-emerald-700">
+                                    Read the story
+                                    <svg
+                                        class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </Card>
+                </a>
+            ) : (
+                <Card class="border-dashed border-gray-200 text-center">
+                    <p class="text-gray-500">
+                        We&apos;re drafting our next story. Check back soon.
+                    </p>
+                </Card>
+            )
+        }
+
+        {
+            tags.length ? (
+                <section aria-labelledby="blog-categories" class="space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <h2
+                            id="blog-categories"
+                            class="text-sm font-semibold uppercase tracking-[0.3em] text-gray-500"
+                        >
+                            Categories
+                        </h2>
+                        {selectedTag && (
+                            <a
+                                class="text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                                href={filterHrefFor()}
+                            >
+                                Clear filter
+                            </a>
+                        )}
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <a
+                            aria-current={isAllActive ? "page" : undefined}
+                            href={filterHrefFor()}
+                            class="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+                        >
+                            <Card
+                                class={`h-full !bg-white ${
+                                    isAllActive
+                                        ? "border-emerald-300"
+                                        : "border-gray-100"
+                                } text-left transition hover:-translate-y-1 hover:shadow-md`}
+                                style={`background-image: ${accentForIndex(1)}`}
+                            >
+                                <p class="text-sm font-semibold text-gray-900">
+                                    All updates
+                                </p>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Every launch, recap, and experiment.
+                                </p>
+                            </Card>
+                        </a>
+
+                        {tags.map((tag, index) => {
+                            const isActive = selectedTag === tag;
+
+                            return (
+                                <a
+                                    aria-current={isActive ? "page" : undefined}
+                                    key={tag}
+                                    href={filterHrefFor(tag)}
+                                    class="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+                                >
+                                    <Card
+                                        class={`h-full !bg-white ${
+                                            isActive
+                                                ? "border-emerald-300"
+                                                : "border-gray-100"
+                                        } text-left transition hover:-translate-y-1 hover:shadow-md`}
+                                        style={`background-image: ${accentForIndex(index + 2)}`}
+                                    >
+                                        <p class="text-sm font-semibold text-gray-900">
+                                            {formatTagLabel(tag)}
+                                        </p>
+                                        <p class="mt-2 text-sm text-gray-600">
+                                            Stories focused on{" "}
+                                            {formatTagLabel(tag)}.
+                                        </p>
+                                    </Card>
+                                </a>
+                            );
+                        })}
+                    </div>
+                </section>
+            ) : null
+        }
+
+        <section aria-labelledby="latest-posts" class="space-y-8">
+            <div class="space-y-2">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p
+                            class="text-xs font-semibold uppercase tracking-[0.35em] text-gray-400"
+                        >
+                            Latest posts
+                        </p>
+                        <h2
+                            id="latest-posts"
+                            class="text-2xl font-semibold text-gray-900"
+                        >
+                            Fresh from the team
+                        </h2>
+                    </div>
+                    {
+                        selectedTag && (
+                            <p class="text-sm text-gray-500">
+                                Showing posts in {formatTagLabel(selectedTag)}.
+                            </p>
+                        )
+                    }
+                </div>
+                <p class="max-w-2xl text-sm text-gray-600">
+                    Dive into product walkthroughs, community recaps, and
+                    lessons from scaling merch operations.
+                </p>
+            </div>
+
+            {
+                filteredPosts.length ? (
+                    hasMoreStories ? (
+                        <div class="space-y-6">
+                            {remainingPosts.map((post, index) => (
+                                <PostListCard
+                                    key={post.id}
+                                    accent={accentForIndex(index + 3)}
+                                    datetime={post.data.publishDate.toISOString()}
+                                    description={post.data.description}
+                                    displayDate={formatFullDate(
+                                        post.data.publishDate,
+                                    )}
+                                    href={detailHrefFor(post.slug)}
+                                    tag={
+                                        post.data.tags?.[0]
+                                            ? formatTagLabel(post.data.tags[0])
+                                            : undefined
+                                    }
+                                    title={post.data.title}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <Card class="border border-emerald-100 bg-emerald-50/60 text-center">
+                            <p class="text-sm text-emerald-700">
+                                You&apos;re all caught up on these updates.
+                                Explore other categories to keep reading.
+                            </p>
+                        </Card>
+                    )
+                ) : (
+                    <Card class="border-dashed border-gray-200 text-center">
+                        <p class="text-gray-500">{noPostsMessage}</p>
+                    </Card>
+                )
+            }
+        </section>
+    </main>
 </BaseLayout>
