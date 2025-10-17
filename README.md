@@ -12,15 +12,18 @@ yarn dev
 ## Deployment Overview
 
 - The Dockerfile performs a multi-stage build (`yarn build`) and produces a static nginx image served on port 80.
-- On pushes to `main`, `.github/workflows/deploy.yml` builds the image, pushes it to GHCR at `ghcr.io/merchbaseco/merchbaseco`, and dispatches a `deploy_merchbase_site` event to the infra repo.
-- The infra repo workflow SSHes to the server, pulls the new image, and runs `stack/merchbaseco/deploy.sh`, which updates the running container.
+- On pushes to `main`, `.github/workflows/deploy.yml` builds the image, pushes it to GHCR at `ghcr.io/merchbaseco/merchbaseco`, then SSHes to the server to pull the tag and run `stack/merchbaseco/deploy.sh`.
+- The server-side script (kept in `~/merchbase-infra/stack/merchbaseco`) updates the `.env` tag, runs `docker compose pull merchbaseco`, and restarts the container.
 
 ### Required Secrets
 
 Set these Actions secrets in this repo:
 
 - `GHCR_USERNAME` / `GHCR_TOKEN` – classic PAT with `write:packages`, `read:packages`, `repo`.
-- `INFRA_DISPATCH_TOKEN` – classic PAT with `repo` scope (can reuse `GHCR_TOKEN`).
+- `DEPLOY_SSH_HOST` – host (or IP) of the deployment server.
+- `DEPLOY_SSH_USER` – deploy user with access to `docker` and `merchbase-infra/stack/merchbaseco`.
+- `DEPLOY_SSH_PRIVATE_KEY` – private key for the deploy user (PEM format).
+- `DEPLOY_SSH_PASSPHRASE` – optional; leave empty if key has no passphrase.
 
 ### Runtime Configuration
 
