@@ -1,25 +1,27 @@
+# syntax=docker/dockerfile:1.7
+
 FROM node:20-alpine AS build
 
-ARG HUGEICONS_TOKEN
-ENV HUGEICONS_TOKEN=${HUGEICONS_TOKEN}
 WORKDIR /app
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 # Install dependencies using the lockfile for reproducibility.
 COPY package.json yarn.lock .yarnrc.yml ./
-RUN set -eux; \
-  printf "HUGEICONS_TOKEN=%s\n" "$HUGEICONS_TOKEN" > .env; \
+RUN --mount=type=secret,id=hugeicons_token \
+  set -eux; \
+  printf "HUGEICONS_TOKEN=%s\n" "$(cat /run/secrets/hugeicons_token)" > .env; \
   corepack enable; \
   yarn install --immutable; \
   rm -f .env
 
 # Copy the remaining source and build the static site.
 COPY . .
-RUN yarn build
-
-# Clear the token so it doesn't leak into later layers.
-ENV HUGEICONS_TOKEN=
+RUN --mount=type=secret,id=hugeicons_token \
+  set -eux; \
+  printf "HUGEICONS_TOKEN=%s\n" "$(cat /run/secrets/hugeicons_token)" > .env; \
+  yarn build; \
+  rm -f .env
 
 FROM nginx:1.27-alpine AS runtime
 
