@@ -8,18 +8,18 @@ ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 # Install dependencies using the lockfile for reproducibility.
 COPY package.json yarn.lock .yarnrc.yml ./
-RUN --mount=type=secret,id=hugeicons_token \
+RUN --mount=type=secret,id=merchbase_npm_token \
   set -eux; \
-  printf "HUGEICONS_TOKEN=%s\n" "$(cat /run/secrets/hugeicons_token)" > .env; \
+  printf "MERCHBASE_NPM_TOKEN=%s\n" "$(cat /run/secrets/merchbase_npm_token)" > .env; \
   corepack enable; \
   yarn install --immutable; \
   rm -f .env
 
 # Copy the remaining source and build the static site.
 COPY . .
-RUN --mount=type=secret,id=hugeicons_token \
+RUN --mount=type=secret,id=merchbase_npm_token \
   set -eux; \
-  printf "HUGEICONS_TOKEN=%s\n" "$(cat /run/secrets/hugeicons_token)" > .env; \
+  printf "MERCHBASE_NPM_TOKEN=%s\n" "$(cat /run/secrets/merchbase_npm_token)" > .env; \
   yarn build; \
   rm -f .env
 

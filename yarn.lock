@@ -816,13 +816,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hugeicons-pro/core-solid-rounded@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@hugeicons-pro/core-solid-rounded@npm:1.1.0"
-  checksum: 10c0/d0f2663925eb670673abc2e02da1ba8bfe0da92d60a0ce71b5c5b9dd40704f847dd69ef753522a03b283b3cb0216bb8801fc0ef7ae1b7478b2baeca8f96b2ffa
-  languageName: node
-  linkType: hard
-
 "@hugeicons/react@npm:^1.1.1":
   version: 1.1.1
   resolution: "@hugeicons/react@npm:1.1.1"
@@ -1078,6 +1071,17 @@ __metadata:
   version: 0.10.17
   resolution: "@mediapipe/tasks-vision@npm:0.10.17"
   checksum: 10c0/f2f5dd9ca39d562b902a6d964f8b786f17a143f42776d0d26b8c79632b10cf210e28d98ec92de757b7bb2e6595ed4f9bbf5e49f1709b09dc08709bd276ced442
+  languageName: node
+  linkType: hard
+
+"@merchbaseco/icons@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@merchbaseco/icons@npm:1.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40merchbaseco%2Ficons%2F1.0.1%2Fc01808cf72059cd5c9e714861e56e364c51de6d8"
+  dependencies:
+    "@hugeicons/react": "npm:^1.1.1"
+  peerDependencies:
+    react: ">=18"
+  checksum: 10c0/b259046ac2fa5d756ccff62aabb065fa56fbfdc413ab06a33bfa956779521c1f5283a311ebab58ff231d8d8775eb622d840d8b4d73b9a5360c183a10ae971b50
   languageName: node
   linkType: hard
 
@@ -3908,8 +3912,7 @@ __metadata:
     "@biomejs/biome": "npm:^1.9.4"
     "@fontsource/bricolage-grotesque": "npm:^5.2.10"
     "@fontsource/public-sans": "npm:^5.2.7"
-    "@hugeicons-pro/core-solid-rounded": "npm:^1.1.0"
-    "@hugeicons/react": "npm:^1.1.1"
+    "@merchbaseco/icons": "npm:^1.0.1"
     "@react-three/drei": "npm:^9.114.6"
     "@react-three/fiber": "npm:^8.15.18"
     "@squircle-js/react": "npm:^1.2.18"

@@ -36,7 +36,7 @@ jobs:
           context: .
           file: ./Dockerfile
           secrets: |
-            hugeicons_token=${{ secrets.HUGEICONS_TOKEN }}
+            merchbase_npm_token=${{ secrets.MERCHBASE_NPM_TOKEN }}
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

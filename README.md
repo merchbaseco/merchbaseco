@@ -4,6 +4,9 @@ Static Astro site for merchbase.co. The app builds into a standalone nginx image
 
 ## Local Development
 
+1. Copy `.env.example` to `.env` and set `MERCHBASE_NPM_TOKEN` to a GitHub Packages token with `read:packages`.
+2. Install deps and start Astro:
+
 ```bash
 yarn install
 yarn dev
