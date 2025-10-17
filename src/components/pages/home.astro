@@ -1,16 +1,9 @@
 ---
 import { Squircle } from "@/components/ui/Squircle";
-import LogoSphere from "@/components/LogoSphere.astro";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-    BookOpen01Icon,
-    Home01Icon,
-    InformationCircleIcon,
-} from "@hugeicons/core-free-icons";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-    recentPosts?: Array<CollectionEntry<"blog">>;
+  recentPosts?: Array<CollectionEntry<"blog">>;
 }
 
 const { recentPosts = [] } = Astro.props as Props;
@@ -18,95 +11,42 @@ const { recentPosts = [] } = Astro.props as Props;
 const site = Astro.site ?? new URL("http://localhost/");
 const aboutHref = new URL("./about/", site).pathname;
 const blogIndexHref = new URL("./blog/", site).pathname;
-const blogPostHref = (slug: string) =>
-    new URL(`./blog/${slug}/`, site).pathname;
+const blogPostHref = (slug: string) => new URL(`./blog/${slug}/`, site).pathname;
 
 const formatDate = (date: Date) =>
-    date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
+  date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 ---
 
 <div class="min-h-screen bg-white">
-    <header class="px-8 py-8">
-        <div class="mb-12 flex flex-col gap-8">
-            <div class="flex flex-wrap items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <LogoSphere />
-                    <h1
-                        class="font-display text-5xl font-extrabold tracking-tight"
-                    >
-                        MerchBase
-                    </h1>
-                </div>
-                <nav
-                    class="flex flex-wrap items-center gap-2 font-display text-sm font-medium text-gray-600 sm:gap-4 sm:text-base"
-                >
-                    <a
-                        href="/"
-                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
-                    >
-                        <HugeiconsIcon
-                            icon={Home01Icon}
-                            size={40}
-                            strokeWidth={1.5}
-                            color="currentColor"
-                            className="transition-colors"
-                        />
-                        <span>Home</span>
-                    </a>
-                    <a
-                        href={blogIndexHref}
-                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
-                    >
-                        <HugeiconsIcon
-                            icon={BookOpen01Icon}
-                            size={40}
-                            strokeWidth={1.5}
-                            color="currentColor"
-                            className="transition-colors"
-                        />
-                        <span>Blog</span>
-                    </a>
-                    <a
-                        href="#about"
-                        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
-                    >
-                        <HugeiconsIcon
-                            icon={InformationCircleIcon}
-                            size={40}
-                            strokeWidth={1.5}
-                            color="currentColor"
-                            className="transition-colors"
-                        />
-                        <span>About</span>
-                    </a>
-                </nav>
-            </div>
-
+    <header class="px-8 pb-12 pt-20">
+        <div class="mx-auto flex max-w-7xl flex-col gap-10">
             <div class="max-w-2xl" id="about">
-                <h2 class="mb-8 text-5xl font-bold leading-3">
+                <h2 class="mb-8 text-5xl font-bold leading-12">
                     We are a research and product studio for print on demand
                     sellers. Quality, beauty, ethics, and community are our core
                     values.
                 </h2>
             </div>
-        </div>
 
-        <nav class="flex flex-col gap-2 text-lg">
-            <a href="#" class="transition-opacity hover:opacity-70">Sign in</a>
-            <a href="#" class="transition-opacity hover:opacity-70"
-                >Create account</a
-            >
-            <a href={aboutHref} class="transition-opacity hover:opacity-70"
-                >About</a
-            >
-            <a href={blogIndexHref} class="transition-opacity hover:opacity-70"
-                >Blog</a
-            >
-        </nav>
+            <nav class="flex flex-col gap-2 text-lg">
+                <a href="#" class="transition-opacity hover:opacity-70"
+                    >Sign in</a
+                >
+                <a href="#" class="transition-opacity hover:opacity-70"
+                    >Create account</a
+                >
+                <a href={aboutHref} class="transition-opacity hover:opacity-70"
+                    >About</a
+                >
+                <a href={blogIndexHref} class="transition-opacity hover:opacity-70"
+                    >Blog</a
+                >
+            </nav>
+        </div>
     </header>
 
     <main class="px-8 pb-16">

@@ -1,0 +1,69 @@
+---
+import LogoSphere from "@/components/LogoSphere.astro";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { BookOpen01Icon, Home01Icon, InformationCircleIcon } from "@hugeicons/core-free-icons";
+
+const site = Astro.site ?? new URL("http://localhost/");
+const homeHref = new URL("./", site).pathname;
+const blogHref = new URL("./blog/", site).pathname;
+const isHomePage = Astro.url.pathname === "/";
+const aboutHref = isHomePage ? "#about" : new URL("./about/", site).pathname;
+---
+<header class="bg-white px-8 py-6">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6">
+    <a href={homeHref} class="group inline-flex items-center gap-2 transition hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gray-900">
+      <LogoSphere />
+      <span class="font-display text-4xl font-extrabold tracking-tight text-gray-900 transition-colors group-hover:text-gray-700">
+        MerchBase
+      </span>
+    </a>
+
+    <nav class="flex flex-wrap items-center gap-2 font-display text-sm font-medium text-gray-600 sm:gap-4 sm:text-base">
+      <a
+        href={homeHref}
+        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+        aria-current={isHomePage ? "page" : undefined}
+      >
+        <HugeiconsIcon
+          icon={Home01Icon}
+          size={36}
+          strokeWidth={1.5}
+          color="currentColor"
+          className="transition-colors"
+          aria-hidden="true"
+        />
+        <span>Home</span>
+      </a>
+      <a
+        href={blogHref}
+        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+        aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}
+      >
+        <HugeiconsIcon
+          icon={BookOpen01Icon}
+          size={36}
+          strokeWidth={1.5}
+          color="currentColor"
+          className="transition-colors"
+          aria-hidden="true"
+        />
+        <span>Blog</span>
+      </a>
+      <a
+        href={aboutHref}
+        class="group inline-flex items-center gap-3 rounded-full px-3 py-2 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:px-4"
+        aria-current={Astro.url.pathname.startsWith("/about") ? "page" : undefined}
+      >
+        <HugeiconsIcon
+          icon={InformationCircleIcon}
+          size={36}
+          strokeWidth={1.5}
+          color="currentColor"
+          className="transition-colors"
+          aria-hidden="true"
+        />
+        <span>About</span>
+      </a>
+    </nav>
+  </div>
+</header>
