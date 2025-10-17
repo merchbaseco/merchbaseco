@@ -8,8 +8,11 @@ ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 # Install dependencies using the lockfile for reproducibility.
 COPY package.json yarn.lock .yarnrc.yml ./
-RUN corepack enable \
-    && yarn install --immutable
+RUN set -eux; \
+  printf "HUGEICONS_TOKEN=%s\n" "$HUGEICONS_TOKEN" > .env; \
+  corepack enable; \
+  yarn install --immutable; \
+  rm -f .env
 
 # Copy the remaining source and build the static site.
 COPY . .
