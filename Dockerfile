@@ -1,4 +1,7 @@
 FROM node:20-alpine AS build
+
+ARG HUGEICONS_TOKEN
+ENV HUGEICONS_TOKEN=${HUGEICONS_TOKEN}
 WORKDIR /app
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -11,6 +14,9 @@ RUN corepack enable \
 # Copy the remaining source and build the static site.
 COPY . .
 RUN yarn build
+
+# Clear the token so it doesn't leak into later layers.
+ENV HUGEICONS_TOKEN=
 
 FROM nginx:1.27-alpine AS runtime
 

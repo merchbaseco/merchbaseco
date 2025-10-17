@@ -1,7 +1,7 @@
 ---
 import LogoSphere from "@/components/logo_sphere.astro";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { BookOpen01Icon, Home01Icon, InformationCircleIcon } from "@hugeicons/core-free-icons";
+import { BookOpen01Icon, Home01Icon, InformationCircleIcon } from "@hugeicons-pro/core-solid-rounded";
 
 const site = Astro.site ?? new URL("http://localhost/");
 const homeHref = new URL("./", site).pathname;
@@ -27,7 +27,6 @@ const aboutHref = isHomePage ? "#about" : new URL("./about/", site).pathname;
         <HugeiconsIcon
           icon={Home01Icon}
           size={36}
-          strokeWidth={1.5}
           color="currentColor"
           className="transition-colors"
           aria-hidden="true"
@@ -42,7 +41,6 @@ const aboutHref = isHomePage ? "#about" : new URL("./about/", site).pathname;
         <HugeiconsIcon
           icon={BookOpen01Icon}
           size={36}
-          strokeWidth={1.5}
           color="currentColor"
           className="transition-colors"
           aria-hidden="true"
@@ -57,7 +55,6 @@ const aboutHref = isHomePage ? "#about" : new URL("./about/", site).pathname;
         <HugeiconsIcon
           icon={InformationCircleIcon}
           size={36}
-          strokeWidth={1.5}
           color="currentColor"
           className="transition-colors"
           aria-hidden="true"

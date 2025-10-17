@@ -16,6 +16,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      HUGEICONS_TOKEN: ${{ secrets.HUGEICONS_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,6 +37,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          build-args: |
+            HUGEICONS_TOKEN=${{ secrets.HUGEICONS_TOKEN }}
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

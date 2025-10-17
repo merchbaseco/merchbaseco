@@ -816,10 +816,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hugeicons/core-free-icons@npm:^1.1.0":
+"@hugeicons-pro/core-solid-rounded@npm:^1.1.0":
   version: 1.1.0
-  resolution: "@hugeicons/core-free-icons@npm:1.1.0"
-  checksum: 10c0/89c008ff30116f4d4c23cc2bfd73fb535bb5cf48693c048201b21e31146d147598a77d48e2b3e4f80c37616bfaf6b7686d74ce8ed4c73b8f49d05072d4fee437
+  resolution: "@hugeicons-pro/core-solid-rounded@npm:1.1.0"
+  checksum: 10c0/d0f2663925eb670673abc2e02da1ba8bfe0da92d60a0ce71b5c5b9dd40704f847dd69ef753522a03b283b3cb0216bb8801fc0ef7ae1b7478b2baeca8f96b2ffa
   languageName: node
   linkType: hard
 
@@ -3908,7 +3908,7 @@ __metadata:
     "@biomejs/biome": "npm:^1.9.4"
     "@fontsource/bricolage-grotesque": "npm:^5.2.10"
     "@fontsource/public-sans": "npm:^5.2.7"
-    "@hugeicons/core-free-icons": "npm:^1.1.0"
+    "@hugeicons-pro/core-solid-rounded": "npm:^1.1.0"
     "@hugeicons/react": "npm:^1.1.1"
     "@react-three/drei": "npm:^9.114.6"
     "@react-three/fiber": "npm:^8.15.18"
