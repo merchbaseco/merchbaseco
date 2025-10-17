@@ -2,11 +2,15 @@
 import { Squircle } from "@/components/ui/Squircle";
 import LogoSphere from "@/components/LogoSphere.astro";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { BookOpen01Icon, Home01Icon, InformationCircleIcon } from "@hugeicons/core-free-icons";
+import {
+    BookOpen01Icon,
+    Home01Icon,
+    InformationCircleIcon,
+} from "@hugeicons/core-free-icons";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  recentPosts?: Array<CollectionEntry<"blog">>;
+    recentPosts?: Array<CollectionEntry<"blog">>;
 }
 
 const { recentPosts = [] } = Astro.props as Props;
@@ -14,14 +18,15 @@ const { recentPosts = [] } = Astro.props as Props;
 const site = Astro.site ?? new URL("http://localhost/");
 const aboutHref = new URL("./about/", site).pathname;
 const blogIndexHref = new URL("./blog/", site).pathname;
-const blogPostHref = (slug: string) => new URL(`./blog/${slug}/`, site).pathname;
+const blogPostHref = (slug: string) =>
+    new URL(`./blog/${slug}/`, site).pathname;
 
 const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+    date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
 ---
 
 <div class="min-h-screen bg-white">
@@ -30,8 +35,10 @@ const formatDate = (date: Date) =>
             <div class="flex flex-wrap items-center justify-between gap-6">
                 <div class="flex items-center gap-4">
                     <LogoSphere />
-                    <h1 class="font-display text-5xl font-extrabold tracking-tight">
-                        MerchBase!
+                    <h1
+                        class="font-display text-5xl font-extrabold tracking-tight"
+                    >
+                        MerchBase
                     </h1>
                 </div>
                 <nav
@@ -80,9 +87,10 @@ const formatDate = (date: Date) =>
             </div>
 
             <div class="max-w-2xl" id="about">
-                <h2 class="mb-8 text-5xl font-bold leading-tight">
+                <h2 class="mb-8 text-5xl font-bold leading-3">
                     We are a research and product studio for print on demand
-                    sellers. Quality, ethics, and community are our core values.
+                    sellers. Quality, beauty, ethics, and community are our core
+                    values.
                 </h2>
             </div>
         </div>
@@ -92,8 +100,12 @@ const formatDate = (date: Date) =>
             <a href="#" class="transition-opacity hover:opacity-70"
                 >Create account</a
             >
-            <a href={aboutHref} class="transition-opacity hover:opacity-70">About</a>
-            <a href={blogIndexHref} class="transition-opacity hover:opacity-70">Blog</a>
+            <a href={aboutHref} class="transition-opacity hover:opacity-70"
+                >About</a
+            >
+            <a href={blogIndexHref} class="transition-opacity hover:opacity-70"
+                >Blog</a
+            >
         </nav>
     </header>
 
