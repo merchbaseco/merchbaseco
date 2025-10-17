@@ -32,13 +32,11 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v5
-        env:
-          HUGEICONS_TOKEN: ${{ secrets.HUGEICONS_TOKEN }}
         with:
           context: .
           file: ./Dockerfile
           secrets: |
-            id=hugeicons_token,env=HUGEICONS_TOKEN
+            hugeicons_token=${{ secrets.HUGEICONS_TOKEN }}
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
