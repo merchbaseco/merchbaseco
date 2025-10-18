@@ -1,4 +1,4 @@
-import { Cursor, CursorFollow, CursorProvider } from "@/components/animate-ui/cursor";
+import { Cursor, CursorProvider } from "@/components/cursor/cursor";
 
 function CursorClient() {
   return (
