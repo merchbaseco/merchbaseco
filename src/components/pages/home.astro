@@ -10,6 +10,10 @@ import {
 import type { CollectionEntry } from "astro:content";
 import NavItem from "../nav-item.astro";
 import Logo from "@/components/logo.astro";
+import {
+    Shirt01BulkRounded,
+    ShoppingBag03BulkRounded,
+} from "@merchbaseco/icons/core-bulk-rounded";
 
 const isHomePage = Astro.url.pathname === "/";
 const isBlogPage = Astro.url.pathname.startsWith("/blog");
@@ -41,19 +45,31 @@ const formatDate = (date: Date) =>
     <div class="w-full mt-12">
         <h2 class="text-[44px] font-normal leading-12">
             We build bespoke tools for <div
-                class="bg-gray-100 rounded-2xl inline-flex tracking-[-0.01em] gap-2 text-purple-600 font-semibold items-center relative -bottom-1 px-4"
+                class="inline-flex gap-1 text-blue-600 font-semibold items-center relative -bottom-1.5"
             >
                 <HugeiconsIcon
-                    icon={Shirt01Icon}
-                    size={36}
+                    icon={Shirt01BulkRounded}
+                    size={44}
                     color="currentColor"
                     className="transition-colors"
                     aria-hidden="true"
-                /><div>Amazon Merch</div>
-            </div> designers,
+                /><div>designers</div>
+            </div>
+            and
+            <div
+                class="inline-flex gap-1 text-orange-600 font-semibold items-center relative -bottom-1.5"
+            >
+                <HugeiconsIcon
+                    icon={ShoppingBag03BulkRounded}
+                    size={44}
+                    color="currentColor"
+                    className="transition-colors"
+                    aria-hidden="true"
+                /><div>sellers</div>
+            </div>
         </h2>
-        <h2 class="text-[44px] font-normal leading-12 -mt-1">
-            with a passion for quality, beauty, and integrity.
+        <h2 class="text-[44px] font-normal leading-12 -mt-2">
+            rooted in quality, beauty, and integrity.
         </h2>
     </div>
 
@@ -141,7 +157,7 @@ const formatDate = (date: Date) =>
                 client:load
                 cornerRadius={24}
                 cornerSmoothing={0.8}
-                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-amber-100 to-amber-200 p-8 text-gray-900 transition-transform duration-200 ease-out hover:scale-[1.02]"
+                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 p-8 text-gray-900 transition-transform duration-200 ease-out hover:scale-[1.02]"
             >
                 <div>
                     <div class="mb-6 flex items-start justify-between">
@@ -175,48 +191,6 @@ const formatDate = (date: Date) =>
                     <p class="leading-relaxed text-gray-700">
                         More tools for print on demand sellers are in
                         development. Stay tuned for announcements.
-                    </p>
-                </div>
-            </Squircle>
-
-            <Squircle
-                client:load
-                cornerRadius={24}
-                cornerSmoothing={0.8}
-                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-400 to-teal-500 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
-            >
-                <div>
-                    <div class="mb-6 flex items-start justify-between">
-                        <Squircle
-                            client:load
-                            cornerRadius={16}
-                            cornerSmoothing={0.8}
-                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
-                        >
-                            <div class="text-3xl">🚀</div>
-                        </Squircle>
-                        <svg
-                            class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M7 7h10v10"></path>
-                            <path d="M7 17 17 7"></path>
-                        </svg>
-                    </div>
-                    <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
-                    <p class="mb-6 text-sm text-white/80">2025</p>
-                </div>
-
-                <div>
-                    <p class="leading-relaxed text-white/90">
-                        Building the future of ethical and sustainable print on
-                        demand commerce.
                     </p>
                 </div>
             </Squircle>

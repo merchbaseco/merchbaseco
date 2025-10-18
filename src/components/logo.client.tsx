@@ -38,11 +38,16 @@ export function Logo({ hoverTargetSelector = "[data-logo-hover-target]" }: LogoP
 
   const handleLiftProgress = (value: number) => {
     const clamped = Math.min(Math.max(value, 0), 1);
-    if (Math.abs(clamped - shadowStrengthRef.current) > 0.02 || clamped === 0 || clamped === 1) {
-      shadowStrengthRef.current = clamped;
-      setShadowStrength(clamped);
+    const normalized = clamped <= 0.015 ? 0 : clamped;
+    if (
+      Math.abs(normalized - shadowStrengthRef.current) > 0.005 ||
+      normalized === 0 ||
+      normalized === 1
+    ) {
+      shadowStrengthRef.current = normalized;
+      setShadowStrength(normalized);
     } else {
-      shadowStrengthRef.current = clamped;
+      shadowStrengthRef.current = normalized;
     }
   };
 
@@ -53,6 +58,7 @@ export function Logo({ hoverTargetSelector = "[data-logo-hover-target]" }: LogoP
         cornerSmoothing={0.8}
         className={clsx(
           "h-full w-full overflow-hidden rounded-2xl transition-transform duration-300 ease-out",
+          isHovered ? "scale-[1.04]" : "scale-100",
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -73,11 +79,11 @@ export function Logo({ hoverTargetSelector = "[data-logo-hover-target]" }: LogoP
           <directionalLight castShadow position={[0, -10, 0]} intensity={0.4} />
           <HueShiftingSphere isHovered={isHovered} onLiftProgress={handleLiftProgress} />
           <ContactShadows
-            position={[0, -1.6, 0]}
-            opacity={0.1 * shadowStrength}
-            scale={5.6}
-            blur={4.2}
-            far={2.2}
+            position={[0, -1.32, 0]}
+            opacity={0.18 * shadowStrength}
+            scale={3.9}
+            blur={3.4}
+            far={2.8}
           />
           <Environment preset="studio" />
         </Canvas>

@@ -99,7 +99,7 @@ const marqueeIcons = [...shuffledIcons, ...shuffledIcons];
             class="marquee-fade-start pointer-events-none absolute inset-y-0 left-0 w-24"
         >
         </div>
-        <div class="icon-marquee flex w-max items-center gap-8">
+        <div class="icon-marquee flex w-max items-center gap-9">
             {
                 marqueeIcons.map((icon, index) => (
                     <HugeiconsIcon
@@ -119,10 +119,10 @@ const marqueeIcons = [...shuffledIcons, ...shuffledIcons];
 <style>
     @keyframes icon-marquee {
         0% {
-            transform: translateX(0);
+            transform: translateX(-50%);
         }
         100% {
-            transform: translateX(-50%);
+            transform: translateX(0);
         }
     }
 

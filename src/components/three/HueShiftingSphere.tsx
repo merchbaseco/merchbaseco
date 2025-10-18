@@ -46,7 +46,7 @@ const fragmentShader = `
       targetColor = mix(color3, color2, gradient * 2.0);
     }
 
-    float hueShiftAmount = sin(uTime * 0.8) * 0.6;
+    float hueShiftAmount = sin(uTime * 1.4) * 0.6;
     targetColor = hueShift(targetColor, hueShiftAmount);
 
     vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
@@ -111,10 +111,6 @@ export function HueShiftingSphere({ isHovered, onLiftProgress }: HueShiftingSphe
     position: 0,
     velocity: 0,
   });
-  const scaleState = useRef<{ value: number; velocity: number }>({
-    value: 0,
-    velocity: 0,
-  });
 
   useEffect(() => {
     const wasHovered = hoveredRef.current;
@@ -133,7 +129,6 @@ export function HueShiftingSphere({ isHovered, onLiftProgress }: HueShiftingSphe
       hoverState.current.active = false;
     }
     liftState.current.velocity = 0;
-    scaleState.current.velocity = 0;
   }, [isHovered]);
 
   useFrame((state, delta) => {
@@ -152,18 +147,7 @@ export function HueShiftingSphere({ isHovered, onLiftProgress }: HueShiftingSphe
           : -1 + (4 - 2 * animationProgress) * animationProgress;
 
       const baseScale = 0.85 + easedProgress * 0.2;
-      const scaleTarget = hoveredRef.current ? 0.08 : 0;
-      const scaleStiffness = hoveredRef.current ? 40 : 24;
-      const scaleDamping = hoveredRef.current ? 9 : 11;
-      const scaleDisplacement = scaleTarget - scaleState.current.value;
-      const scaleAcceleration =
-        scaleStiffness * scaleDisplacement - scaleDamping * scaleState.current.velocity;
-      scaleState.current.velocity += scaleAcceleration * delta;
-      scaleState.current.value += scaleState.current.velocity * delta;
-      scaleState.current.value = THREE.MathUtils.clamp(scaleState.current.value, -0.02, 0.1);
-
-      const scale = baseScale + scaleState.current.value;
-      meshRef.current.scale.setScalar(scale);
+      meshRef.current.scale.setScalar(baseScale);
 
       if (hoverState.current.active) {
         if (hoverState.current.startTime === 0) {
@@ -198,6 +182,14 @@ export function HueShiftingSphere({ isHovered, onLiftProgress }: HueShiftingSphe
       lift.velocity += acceleration * delta;
       lift.position += lift.velocity * delta;
       lift.position = THREE.MathUtils.clamp(lift.position, -0.05, 0.28);
+      if (
+        !hoveredRef.current &&
+        Math.abs(lift.position) < 0.012 &&
+        Math.abs(lift.velocity) < 0.015
+      ) {
+        lift.position = 0;
+        lift.velocity = 0;
+      }
 
       const bobReadiness =
         hoveredRef.current && targetHeight > 0
