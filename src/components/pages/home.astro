@@ -1,4 +1,5 @@
 ---
+import ProductCard from "@/components/ui/product-card.astro";
 import { Squircle } from "@/components/ui/Squircle";
 import { HugeiconsIcon } from "@merchbaseco/icons";
 import { Shirt01Icon } from "@merchbaseco/icons/core-solid-rounded";
@@ -11,9 +12,11 @@ import type { CollectionEntry } from "astro:content";
 import NavItem from "../nav-item.astro";
 import Logo from "@/components/logo.astro";
 import {
+    LinkSquare01BulkRounded,
     Shirt01BulkRounded,
     ShoppingBag03BulkRounded,
 } from "@merchbaseco/icons/core-bulk-rounded";
+import { LassoTool01Icon } from "@merchbaseco/icons/core-stroke-sharp";
 
 const isHomePage = Astro.url.pathname === "/";
 const isBlogPage = Astro.url.pathname.startsWith("/blog");
@@ -97,67 +100,46 @@ const formatDate = (date: Date) =>
     </nav>
 
     <main class="mt-12">
-        <div
-            class="grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-            <Squircle
-                client:load
+        <div class="grid max-w-7xl grid-cols-4 gap-6">
+            <ProductCard
                 cornerRadius={30}
                 cornerSmoothing={1}
-                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between bg-gradient-to-br from-blue-400 to-blue-600 p-8 text-white transition-transform duration-200 ease-out hover:scale-[1.02]"
+                className="bg-[#BAA48C] text-white font-mono"
             >
-                <div>
-                    <div class="mb-6 flex items-start justify-between">
-                        <Squircle
-                            client:load
-                            cornerRadius={16}
-                            cornerSmoothing={0.8}
-                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
-                        >
-                            <div class="text-3xl font-bold text-blue-600">
-                                R
-                            </div>
-                        </Squircle>
-                        <svg
-                            class="h-6 w-6 text-white opacity-70 transition-opacity group-hover:opacity-100"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M7 7h10v10"></path>
-                            <path d="M7 17 17 7"></path>
-                        </svg>
+                <div class="absolute top-6 right-6">
+                    <HugeiconsIcon
+                        icon={LinkSquare01BulkRounded}
+                        size={32}
+                        color="currentColor"
+                        className="transition-colors"
+                        aria-hidden="true"
+                    />
+                </div>
+                <div class="h-full w-full flex-col justify-end">
+                    <div class="mb-6 text-sm text-white/80">
+                        <HugeiconsIcon
+                            icon={LassoTool01Icon}
+                            size={44}
+                            color="currentColor"
+                            className="transition-colors"
+                            aria-hidden="true"
+                        />
                     </div>
-                    <h3 class="mb-2 text-3xl font-bold">RankWrangler</h3>
-                    <p class="mb-6 text-sm text-white/80">2025</p>
+                    <h3 class="mb-2 text-2xl font-bold">RankWrangler</h3>
                 </div>
 
                 <div>
-                    <p class="mb-4 leading-relaxed text-white/90">
-                        A powerful analytics and optimization tool for Amazon
-                        Merch on Demand sellers. It tracks product rankings,
-                        keyword performance, and ad results in real time—helping
-                        creators understand what's working, spot trends early,
-                        and outsmart the competition.
-                    </p>
-                    <p class="text-sm text-white/70">
-                        Designed for speed and clarity, RankWrangler turns raw
-                        data into easy-to-read dashboards that reveal exactly
-                        how your listings perform across keywords, categories,
-                        and campaigns.
+                    <p class="mb-4 font-mono">
+                        Track best seller rankings (BSRs) and other useful data
+                        inside Amazon search results, and Amazon detail pages.
                     </p>
                 </div>
-            </Squircle>
+            </ProductCard>
 
-            <Squircle
-                client:load
+            <ProductCard
                 cornerRadius={24}
                 cornerSmoothing={0.8}
-                className="group relative flex min-h-[500px] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 p-8 text-gray-900 transition-transform duration-200 ease-out hover:scale-[1.02]"
+                className="overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900"
             >
                 <div>
                     <div class="mb-6 flex items-start justify-between">
@@ -189,11 +171,11 @@ const formatDate = (date: Date) =>
 
                 <div>
                     <p class="leading-relaxed text-gray-700">
-                        More tools for print on demand sellers are in
-                        development. Stay tuned for announcements.
+                        More tools are in development! Stay tuned for
+                        announcements.
                     </p>
                 </div>
-            </Squircle>
+            </ProductCard>
         </div>
 
         {

@@ -1,0 +1,27 @@
+---
+import { Squircle, type SquircleProps } from "@/components/ui/Squircle";
+
+interface Props extends SquircleProps {
+  className?: string;
+}
+
+const {
+  className = "",
+  cornerRadius = 24,
+  cornerSmoothing = 0.8,
+  ...squircleProps
+} = Astro.props as Props;
+
+const baseClasses =
+  "group relative flex min-h-[500px] cursor-pointer flex-col justify-between p-8 transition-transform duration-200 ease-out hover:scale-[1.02]";
+---
+
+<Squircle
+  client:load
+  cornerRadius={cornerRadius}
+  cornerSmoothing={cornerSmoothing}
+  className={[baseClasses, className].filter(Boolean).join(" ")}
+  {...squircleProps}
+>
+  <slot />
+</Squircle>
