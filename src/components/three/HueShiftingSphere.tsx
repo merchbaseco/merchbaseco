@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { Mesh, ShaderMaterial } from "three";
 import * as THREE from "three";
@@ -81,13 +81,62 @@ const fragmentShader = `
   }
 `;
 
-export function HueShiftingSphere() {
+function easeInOutCubic(x: number) {
+  return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
+interface HueShiftingSphereProps {
+  isHovered: boolean;
+  onLiftProgress?: (value: number) => void;
+}
+
+export function HueShiftingSphere({ isHovered, onLiftProgress }: HueShiftingSphereProps) {
   const meshRef = useRef<Mesh>(null);
   const materialRef = useRef<ShaderMaterial>(null);
   const startTime = useRef<number | null>(null);
   const initialTimeRef = useRef<number>(0);
+  const hoverState = useRef<{
+    active: boolean;
+    startTime: number;
+    startRotationY: number;
+    targetRotationY: number;
+  }>({
+    active: false,
+    startTime: 0,
+    startRotationY: 0,
+    targetRotationY: 0,
+  });
+  const hoveredRef = useRef(isHovered);
+  const liftState = useRef<{ position: number; velocity: number }>({
+    position: 0,
+    velocity: 0,
+  });
+  const scaleState = useRef<{ value: number; velocity: number }>({
+    value: 0,
+    velocity: 0,
+  });
 
-  useFrame((state) => {
+  useEffect(() => {
+    const wasHovered = hoveredRef.current;
+    hoveredRef.current = isHovered;
+
+    if (isHovered && !wasHovered && meshRef.current) {
+      hoverState.current = {
+        active: true,
+        startTime: 0,
+        startRotationY: meshRef.current.rotation.y,
+        targetRotationY: meshRef.current.rotation.y + Math.PI * 2,
+      };
+    }
+
+    if (!isHovered && wasHovered) {
+      hoverState.current.active = false;
+    }
+    liftState.current.velocity = 0;
+    scaleState.current.velocity = 0;
+  }, [isHovered]);
+
+  useFrame((state, delta) => {
     if (startTime.current === null) {
       startTime.current = state.clock.elapsedTime;
       initialTimeRef.current = state.clock.elapsedTime;
@@ -102,21 +151,80 @@ export function HueShiftingSphere() {
           ? 2 * animationProgress * animationProgress
           : -1 + (4 - 2 * animationProgress) * animationProgress;
 
-      const scale = 0.85 + easedProgress * 0.2;
+      const baseScale = 0.85 + easedProgress * 0.2;
+      const scaleTarget = hoveredRef.current ? 0.08 : 0;
+      const scaleStiffness = hoveredRef.current ? 40 : 24;
+      const scaleDamping = hoveredRef.current ? 9 : 11;
+      const scaleDisplacement = scaleTarget - scaleState.current.value;
+      const scaleAcceleration =
+        scaleStiffness * scaleDisplacement - scaleDamping * scaleState.current.velocity;
+      scaleState.current.velocity += scaleAcceleration * delta;
+      scaleState.current.value += scaleState.current.velocity * delta;
+      scaleState.current.value = THREE.MathUtils.clamp(scaleState.current.value, -0.02, 0.1);
+
+      const scale = baseScale + scaleState.current.value;
       meshRef.current.scale.setScalar(scale);
-      meshRef.current.rotation.y += 0.008 + (1 - animationProgress) * 0.02;
-      meshRef.current.rotation.x += 0.003 + (1 - animationProgress) * 0.015;
+
+      if (hoverState.current.active) {
+        if (hoverState.current.startTime === 0) {
+          hoverState.current.startTime = state.clock.elapsedTime;
+        }
+        const hoverElapsed = state.clock.elapsedTime - hoverState.current.startTime;
+        const hoverDuration = 0.9;
+        const hoverProgress = Math.min(hoverElapsed / hoverDuration, 1);
+        const hoverEased = easeInOutCubic(hoverProgress);
+
+        meshRef.current.rotation.y =
+          hoverState.current.startRotationY +
+          (hoverState.current.targetRotationY - hoverState.current.startRotationY) * hoverEased;
+        meshRef.current.rotation.x += 0.02;
+
+        if (hoverProgress >= 1) {
+          hoverState.current.active = false;
+        }
+      } else {
+        meshRef.current.rotation.y += 0.01 + (1 - animationProgress) * 0.02;
+        meshRef.current.rotation.x += 0.004 + (1 - animationProgress) * 0.015;
+      }
+
+      const targetHeight = hoveredRef.current ? 0.22 : 0;
+      const stiffness = hoveredRef.current ? 80 : 45;
+      const damping = hoveredRef.current ? 14 : 18;
+      const lift = liftState.current;
+
+      const displacement = targetHeight - lift.position;
+      const acceleration = stiffness * displacement - damping * lift.velocity;
+
+      lift.velocity += acceleration * delta;
+      lift.position += lift.velocity * delta;
+      lift.position = THREE.MathUtils.clamp(lift.position, -0.05, 0.28);
+
+      const bobReadiness =
+        hoveredRef.current && targetHeight > 0
+          ? THREE.MathUtils.clamp(1 - Math.abs(displacement) / targetHeight, 0, 1)
+          : 0;
+      const bob =
+        bobReadiness > 0 ? 0.012 * bobReadiness * Math.sin(state.clock.elapsedTime * 8) : 0;
+
+      meshRef.current.position.y = lift.position + bob;
+
+      if (onLiftProgress) {
+        const normalizedHeight = THREE.MathUtils.clamp(lift.position / 0.22, 0, 1);
+        onLiftProgress(normalizedHeight);
+      }
     }
 
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime - initialTimeRef.current;
-      const intensity = animationProgress;
+      const intensity = hoveredRef.current
+        ? Math.min(animationProgress + 0.3, 1)
+        : animationProgress;
       materialRef.current.uniforms.uGlow.value = intensity;
     }
   });
 
   return (
-    <mesh ref={meshRef}>
+    <mesh ref={meshRef} castShadow receiveShadow>
       <sphereGeometry args={[1.5, 64, 64]} />
       <shaderMaterial
         ref={materialRef}
