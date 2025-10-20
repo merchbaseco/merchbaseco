@@ -1,6 +1,6 @@
 ---
 import ProductCard from "@/components/ui/product-card.astro";
-import { Squircle } from "@/components/ui/Squircle";
+import { Squircle } from "@/components/ui/squircle";
 import { HugeiconsIcon } from "@merchbaseco/icons";
 import { Shirt01Icon } from "@merchbaseco/icons/core-solid-rounded";
 import {
@@ -144,10 +144,9 @@ const formatDate = (date: Date) =>
                 <div>
                     <div class="mb-6 flex items-start justify-between">
                         <Squircle
-                            client:load
                             cornerRadius={16}
                             cornerSmoothing={0.8}
-                            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
+                            class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
                         >
                             <div class="text-3xl">🎨</div>
                         </Squircle>
@@ -214,13 +213,12 @@ const formatDate = (date: Date) =>
                     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {recentPosts.map((post) => (
                             <Squircle
-                                client:load
-                                asChild
                                 cornerRadius={24}
                                 cornerSmoothing={0.8}
                                 key={post.id}
+                                class="group flex h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
                             >
-                                <article class="group flex h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                                <div class="flex flex-1 flex-col justify-between">
                                     <div>
                                         <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
                                             {formatDate(post.data.publishDate)}
@@ -250,7 +248,7 @@ const formatDate = (date: Date) =>
                                             <path d="m12 5 7 7-7 7" />
                                         </svg>
                                     </a>
-                                </article>
+                                </div>
                             </Squircle>
                         ))}
                     </div>

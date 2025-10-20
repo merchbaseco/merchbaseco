@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { HueShiftingSphere } from "@/components/three/HueShiftingSphere";
-import { Squircle } from "@/components/ui/Squircle";
+import { SquircleReact as Squircle } from "@/components/ui/squircle";
 import { ContactShadows, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";

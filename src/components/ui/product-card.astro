@@ -1,26 +1,27 @@
 ---
-import { Squircle, type SquircleProps } from "@/components/ui/Squircle";
+import { Squircle, type SquircleProps } from "@/components/ui/squircle";
 
 interface Props extends SquircleProps {
   className?: string;
 }
 
 const {
+  class: classAttr = "",
   className = "",
   cornerRadius = 24,
   cornerSmoothing = 0.8,
   ...squircleProps
-} = Astro.props as Props;
+} = Astro.props as Props & { class?: string };
 
 const baseClasses =
   "group relative flex min-h-[500px] cursor-pointer flex-col justify-between p-8 transition-transform duration-200 ease-out hover:scale-[1.02]";
+const mergedClass = [baseClasses, classAttr, className].filter(Boolean).join(" ");
 ---
 
 <Squircle
-  client:load
   cornerRadius={cornerRadius}
   cornerSmoothing={cornerSmoothing}
-  className={[baseClasses, className].filter(Boolean).join(" ")}
+  class={mergedClass}
   {...squircleProps}
 >
   <slot />

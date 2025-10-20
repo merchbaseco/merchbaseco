@@ -1,0 +1,47 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+export interface SquircleProps extends HTMLAttributes<"div"> {
+  cornerRadius?: number;
+  cornerSmoothing?: number;
+}
+
+const {
+  class: className = "",
+  cornerRadius = 24,
+  cornerSmoothing = 0.8,
+  style = "",
+  ...attributes
+} = Astro.props as SquircleProps;
+
+const fallbackStyles = [
+  `--squircle-fallback-radius: ${cornerRadius}px`,
+  `border-radius: ${cornerRadius}px`,
+];
+
+const styleSegments = [
+  ...fallbackStyles,
+  style,
+].filter(Boolean);
+
+const needsSemicolon = (segment: string) => segment.trim() !== "" && !segment.trim().endsWith(";");
+const inlineStyle = styleSegments
+  .map((segment) => (needsSemicolon(segment) ? `${segment};` : segment))
+  .join(" ");
+---
+
+<merch-squircle
+  data-squircle
+  class:list={[className]}
+  corner-radius={cornerRadius}
+  corner-smoothing={cornerSmoothing}
+  style={inlineStyle}
+  {...attributes}
+>
+  <slot />
+</merch-squircle>
+
+<script type="module">
+  import { ensureSquircleElement } from "./squircle-element";
+  ensureSquircleElement();
+</script>

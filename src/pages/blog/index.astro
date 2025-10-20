@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/layout.astro";
-import { PostListCard } from "@/components/pages/blog/PostListCard";
-import { Card } from "@/components/ui/Card";
+import PostListCard from "@/components/pages/blog/post-list-card.astro";
+import { Card } from "@/components/ui/card";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
