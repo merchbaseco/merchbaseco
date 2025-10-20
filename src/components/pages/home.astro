@@ -11,6 +11,7 @@ import {
 import type { CollectionEntry } from "astro:content";
 import NavItem from "../nav-item.astro";
 import Logo from "@/components/logo.astro";
+import CircularText from "@/components/ui/circular-text.astro";
 import {
     LinkSquare01BulkRounded,
     Shirt01BulkRounded,
@@ -56,20 +57,9 @@ const formatDate = (date: Date) =>
                     color="currentColor"
                     className="transition-colors"
                     aria-hidden="true"
-                /><div>designers</div>
+                /><div>Print on Demand</div>
             </div>
-            and
-            <div
-                class="inline-flex gap-1 text-orange-600 font-semibold items-center relative -bottom-1.5"
-            >
-                <HugeiconsIcon
-                    icon={ShoppingBag03BulkRounded}
-                    size={44}
-                    color="currentColor"
-                    className="transition-colors"
-                    aria-hidden="true"
-                /><div>sellers</div>
-            </div>
+            sellers
         </h2>
         <h2 class="text-[44px] font-normal leading-12 -mt-2">
             rooted in quality, beauty, and integrity.
@@ -130,49 +120,40 @@ const formatDate = (date: Date) =>
 
                 <div>
                     <p class="mb-4 font-mono">
-                        Track best seller rankings (BSRs) and other useful data
-                        inside Amazon search results, and Amazon detail pages.
+                        See BSR's and listing data directly in Amazon Search
+                        results.
                     </p>
                 </div>
             </ProductCard>
-
             <ProductCard
-                cornerRadius={24}
-                cornerSmoothing={0.8}
-                className="overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900"
+                cornerRadius={30}
+                cornerSmoothing={1}
+                className="bg-neutral-200 text-black"
             >
-                <div>
-                    <div class="mb-6 flex items-start justify-between">
-                        <Squircle
-                            cornerRadius={16}
-                            cornerSmoothing={0.8}
-                            class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3"
-                        >
-                            <div class="text-3xl">🎨</div>
-                        </Squircle>
-                        <svg
-                            class="h-6 w-6 text-gray-700 opacity-70 transition-opacity group-hover:opacity-100"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M7 7h10v10"></path>
-                            <path d="M7 17 17 7"></path>
-                        </svg>
+                <div class="absolute top-6 right-6">
+                    <HugeiconsIcon
+                        icon={LinkSquare01BulkRounded}
+                        size={32}
+                        color="currentColor"
+                        className="transition-colors"
+                        aria-hidden="true"
+                    />
+                </div>
+                <div class="h-full w-full flex-col justify-end">
+                    <div class="mb-6 text-sm text-white/80">
+                        <HugeiconsIcon
+                            icon={LassoTool01Icon}
+                            size={44}
+                            color="currentColor"
+                            className="transition-colors"
+                            aria-hidden="true"
+                        />
                     </div>
-                    <h3 class="mb-2 text-3xl font-bold">Coming Soon</h3>
-                    <p class="mb-6 text-sm text-gray-600">2025</p>
+                    More Products Coming Soon
                 </div>
 
                 <div>
-                    <p class="leading-relaxed text-gray-700">
-                        More tools are in development! Stay tuned for
-                        announcements.
-                    </p>
+                    <p class="mb-4 font-mono"></p>
                 </div>
             </ProductCard>
         </div>
