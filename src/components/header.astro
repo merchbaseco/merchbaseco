@@ -36,10 +36,8 @@ import {
 
 const site = Astro.site ?? new URL("http://localhost/");
 const homeHref = new URL("./", site).pathname;
-const blogHref = new URL("./blog/", site).pathname;
 const isHomePage = Astro.url.pathname === "/";
 const aboutHref = isHomePage ? "#about" : new URL("./about/", site).pathname;
-const isBlogPage = Astro.url.pathname.startsWith("/blog");
 const isAboutPage = Astro.url.pathname.startsWith("/about");
 
 const funIcons = [

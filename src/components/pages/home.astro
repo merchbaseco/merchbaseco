@@ -21,7 +21,6 @@ import { ChromeIcon } from "@merchbaseco/icons/core-bulk-rounded";
 import { SafariIcon } from "@merchbaseco/icons/core-solid-rounded";
 
 const isHomePage = Astro.url.pathname === "/";
-const isBlogPage = Astro.url.pathname.startsWith("/blog");
 const isAboutPage = Astro.url.pathname.startsWith("/about");
 
 interface Props {
@@ -33,8 +32,6 @@ const { recentPosts = [] } = Astro.props as Props;
 const site = Astro.site ?? new URL("http://localhost/");
 const homeHref = new URL("./", site).pathname;
 const aboutHref = new URL("./about/", site).pathname;
-const blogHref = new URL("./blog/", site).pathname;
-const blogIndexHref = new URL("./blog/", site).pathname;
 const blogPostHref = (slug: string) =>
     new URL(`./blog/${slug}/`, site).pathname;
 
@@ -47,7 +44,7 @@ const formatDate = (date: Date) =>
 ---
 
 <div class="min-h-screen bg-white">
-    <div class="w-full mt-10 px-9">
+    <div class="w-full mt-4 px-9">
         <h2 class="text-[44px] font-normal leading-12">
             We build bespoke tools for <div
                 class="inline-flex gap-1 text-blue-600 font-semibold items-center relative -bottom-1.5"
@@ -57,7 +54,6 @@ const formatDate = (date: Date) =>
                     size={44}
                     color="currentColor"
                     className="transition-colors"
-                    aria-hidden="true"
                 /><div>Print on Demand</div>
             </div>
             sellers
@@ -65,7 +61,7 @@ const formatDate = (date: Date) =>
         <h2 class="text-[44px] font-normal leading-12 -mt-2">
             rooted in quality, beauty, and integrity.
         </h2>
-        <h4 class="mt-4 text-xl max-w-[1100px] w-full leading-9">
+        <h4 class="mt-4 text-xl max-w-[1100px] w-full leading-10">
             Started by Zach Knickerbocker, an experienced PoD seller,
             MerchBase's core mission is to bring truly quality tools to the
             space without the headaches of constant bugs, predatory
@@ -73,7 +69,7 @@ const formatDate = (date: Date) =>
         </h4>
     </div>
 
-    <main class="mt-8 px-9">
+    <main class="mt-10 px-9">
         <div class="flex gap-6">
             <ProductCard
                 cornerRadius={30}
@@ -86,7 +82,6 @@ const formatDate = (date: Date) =>
                         size={32}
                         color="currentColor"
                         className="transition-colors"
-                        aria-hidden="true"
                     />
                 </div>
                 <div class="h-full w-full flex-col justify-end"></div>
@@ -132,20 +127,20 @@ const formatDate = (date: Date) =>
                 <div>
                     <h3 class="text-3xl mb-2 font-bold">RankWrangler</h3>
                     <p
-                        class="mb-4 font-mono font-medium tracking-tight text-[17px] opacity-90"
+                        class="mb-6 font-mono font-medium tracking-tight text-[17px] opacity-90"
                     >
                         See BSR's and listing data directly in Amazon Search
                         results.
                     </p>
                     <div class="flex justify-between items-center">
                         <div
-                            class="rounded-lg px-2 bg-[#ffd0ba] items-center flex gap-0 leading-5 text-[#612205]"
+                            class="rounded-lg px-3 bg-[#ffd0ba] items-center flex gap-0 leading-5 text-[#612205]"
                         >
                             <span
                                 class="font-mono text-sm uppercase font-medium"
                                 >FREE</span
                             >
-                            <div class="h-7 w-px bg-[#DC6D3E] shrink-0 mx-2">
+                            <div class="h-7 w-px bg-[#DC6D3E] shrink-0 mx-3">
                             </div>
                             <span
                                 class="font-mono text-sm uppercase font-medium"
@@ -158,14 +153,12 @@ const formatDate = (date: Date) =>
                                 size={24}
                                 color="currentColor"
                                 className="transition-colors text-[#ffd0ba]"
-                                aria-hidden="true"
                             />
                             <HugeiconsIcon
                                 icon={SafariIcon}
                                 size={24}
                                 color="currentColor"
                                 className="transition-colors text-[#ffd0ba]"
-                                aria-hidden="true"
                             />
                         </div>
                     </div>
@@ -174,71 +167,91 @@ const formatDate = (date: Date) =>
             <ProductCard
                 cornerRadius={30}
                 cornerSmoothing={1}
-                className="bg-neutral-200 text-black w-96 hover:scale-100"
+                className="bg-gray-200/60 text-black w-96 hover:scale-100"
             >
                 <div class="h-full w-full flex-col justify-end"></div>
 
-                <div>
-                    <div class="text-5xl font-black font-display opacity-10">
-                        More Products<br />Coming Soon
+                <div class="flex justify-between items-center">
+                    <div
+                        class="rounded-lg px-3 bg-gray-300/80 items-center flex gap-0 leading-5 text-gray-800 h-7"
+                    >
+                        <span class="font-mono text-sm uppercase font-medium"
+                            >COMING SOON</span
+                        >
                     </div>
                 </div>
             </ProductCard>
         </div>
     </main>
+    <div
+        class="mt-10 text-[100px] -z-50 text-gray-300 font-black font-display -mb-[70px] ml-9 scale-y-105"
+    >
+        Everything Else
+    </div>
     {
         recentPosts.length > 0 && (
-            <section class="mt-14 bg-indigo-50 pt-7 pb-24 pl-9">
-                <div class="flex gap-6">
+            <section class="bg-gray-300/20 border-t backdrop-blur-sm backdrop-hue-rotate-30 pt-20 pb-9 pl-9 relative z-50">
+                <div
+                    class="grid gap-6 justify-items-start"
+                    style={{
+                        gridTemplateColumns:
+                            "repeat(auto-fit, minmax(24rem, max-content))",
+                    }}
+                >
                     {recentPosts.map((post) => (
                         <Squircle
+                            key={post.id}
                             cornerRadius={24}
                             cornerSmoothing={0.8}
-                            key={post.id}
-                            class="group flex w-96 h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+                            className="group relative flex w-96 h-72 flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
                         >
                             <div class="flex flex-1 flex-col justify-between">
                                 <div>
-                                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-                                        {formatDate(post.data.publishDate)}
-                                    </p>
-                                    <h3 class="mt-3 text-xl font-semibold text-gray-900">
+                                    <h3 class="text-xl font-semibold pr-16">
                                         {post.data.title}
                                     </h3>
-                                    <p class="mt-3 text-sm text-gray-600">
+                                    <p class="mt-3 text-gray-600 leading-7">
                                         {post.data.description}
                                     </p>
                                 </div>
+                                <div class="flex justify-end">
+                                    <div class="bg-gray-100 uppercase text-sm rounded-lg px-2 h-8 flex items-center tracking-wide text-indigo-600">
+                                        {formatDate(post.data.publishDate)}
+                                    </div>
+                                </div>
                                 <a
-                                    class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition-opacity hover:opacity-80"
+                                    class="absolute block top-6 right-6 opacity-50 group-hover:opacity-100"
                                     href={blogPostHref(post.slug)}
                                 >
-                                    Read post
-                                    <svg
-                                        class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M5 12h14" />
-                                        <path d="m12 5 7 7-7 7" />
-                                    </svg>
+                                    <HugeiconsIcon
+                                        icon={LinkSquare01BulkRounded}
+                                        size={32}
+                                        color="currentColor"
+                                        className="transition-colors"
+                                    />
                                 </a>
                             </div>
                         </Squircle>
                     ))}
-                    <Squircle
-                        cornerRadius={24}
-                        cornerSmoothing={0.8}
-                        class="group flex w-96 h-full flex-col justify-end"
-                    >
-                        <div class="flex flex-1 flex-col justify-between">
-                            More stuff coming soon!
-                        </div>
-                    </Squircle>
+
+                    {[1, 2, 3, 4, 5, 6].map((value) => (
+                        <Squircle
+                            key={value}
+                            cornerRadius={24}
+                            cornerSmoothing={0.8}
+                            className="group relative flex w-96 h-72 flex-col justify-between rounded-3xl bg-gray-200/60 p-6 shadow-sm"
+                        />
+                    ))}
+                </div>
+
+                <div class="text-base text-gray-600 flex gap-6 mt-24">
+                    <div>
+                        Copyright © 2025 MerchBase, LLC. All rights reserved.
+                    </div>
+                    <div>/</div>
+                    <div>Terms of service</div>
+                    <div>/</div>
+                    <div>Privacy policy</div>
                 </div>
             </section>
         )

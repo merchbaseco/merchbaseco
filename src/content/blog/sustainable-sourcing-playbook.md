@@ -1,6 +1,6 @@
 ---
-title: "The Sustainable Sourcing Playbook"
-description: "How we vet suppliers and materials before they ever touch your storefront."
+title: "Welcome to MerchBase!"
+description: "I'm so excited to finally launch MerchBase. Responsible sourcing is an ongoing practice, not a box to check. At MerchBase we evaluate every supplier on environmental impact."
 publishDate: 2024-09-12
 tags:
   - sustainability
