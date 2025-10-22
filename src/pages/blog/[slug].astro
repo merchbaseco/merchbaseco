@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/layout.astro";
-import { Card } from "@/components/ui/card";
+import { HugeiconsIcon } from "@merchbaseco/icons";
+import { Home01Icon } from "@merchbaseco/icons/core-bulk-rounded";
 import { getCollection, getEntry } from "astro:content";
 
 export async function getStaticPaths() {
@@ -36,19 +37,6 @@ const formattedDate = data.publishDate.toLocaleDateString("en-US", {
 
 const publishedDateTime = data.publishDate.toISOString();
 
-const gradientPalette = [
-    "radial-gradient(140% 120% at 0% 20%, rgba(216, 240, 255, 0.95) 0%, rgba(255, 250, 235, 0.9) 45%, rgba(209, 247, 226, 0.85) 100%)",
-    "radial-gradient(140% 140% at 15% 15%, rgba(255, 236, 179, 0.95) 0%, rgba(255, 245, 230, 0.88) 45%, rgba(210, 240, 255, 0.85) 100%)",
-    "radial-gradient(140% 140% at 10% 10%, rgba(255, 213, 220, 0.9) 0%, rgba(254, 245, 230, 0.85) 45%, rgba(226, 242, 255, 0.85) 100%)",
-    "radial-gradient(140% 130% at 20% 0%, rgba(210, 241, 255, 0.92) 0%, rgba(237, 244, 255, 0.85) 45%, rgba(223, 252, 235, 0.9) 100%)",
-];
-
-const gradientIndex = [...slug].reduce(
-    (accumulator, character) => accumulator + character.charCodeAt(0),
-    0,
-);
-const heroAccent = gradientPalette[gradientIndex % gradientPalette.length];
-
 const filteredHeadings = (headings ?? []).filter(
     (heading) => heading.depth <= 3,
 );
@@ -60,91 +48,84 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
 ---
 
 <Layout title={`${data.title} · MerchBase`}>
-    <div class="bg-white">
-        <main class="mx-auto max-w-6xl px-6 py-16">
+    <main class="min-h-screen mx-auto w-full max-w-7xl bg-white">
+        <div class="pb-12">
             <a
                 href={homeHref}
-                class="group mb-10 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+                class="group inline-flex items-center gap-2 rounded-2xl px-4 py-2 transition bg-gray-50 border border-gray-100 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
-                <span
-                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-100 bg-white text-emerald-600 transition group-hover:border-emerald-200 group-hover:bg-emerald-50"
-                >
-                    <svg
-                        class="h-4 w-4"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="m12 19-7-7 7-7"></path>
-                        <path d="M19 12H5"></path>
-                    </svg>
-                </span>
-                Back to homepage
+                <HugeiconsIcon
+                    icon={Home01Icon}
+                    size={26}
+                    color="currentColor"
+                    className="transition-colors opacity-90"
+                    aria-hidden="true"
+                />
+                <span>Back to Homepage</span>
             </a>
 
-            <header class="space-y-6">
+            <header class="mt-12 space-y-6">
                 <div
-                    class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-gray-400"
+                    class="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-gray-500"
                 >
                     {
                         primaryTag && (
-                            <span class="rounded-full border border-gray-200 bg-white px-3 py-1 text-[11px] tracking-[0.35em] text-gray-500">
+                            <span class="rounded-full border border-gray-200 bg-white/80 px-3 py-1">
                                 {primaryTag}
                             </span>
                         )
                     }
-                    <time datetime={publishedDateTime}>{formattedDate}</time>
+                    <time
+                        class="rounded-full border border-gray-200 bg-white/80 px-3 py-1"
+                        datetime={publishedDateTime}
+                    >
+                        {formattedDate}
+                    </time>
                 </div>
                 <h1
-                    class="font-display text-5xl font-semibold leading-tight text-gray-900 md:text-6xl"
+                    class="font-display text-[44px] leading-[1.05] text-gray-900 md:text-[56px]"
                 >
                     {data.title}
                 </h1>
-                <p class="max-w-3xl text-lg text-gray-600 md:text-xl">
+                <p class="text-2xl font-light leading-10 text-gray-600">
                     {data.description}
                 </p>
             </header>
+        </div>
 
+        <section class="pb-24">
             <div
-                class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,2.2fr)_minmax(0,0.8fr)] lg:items-start"
+                class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] lg:items-start"
             >
-                <article class="space-y-10">
-                    <figure
-                        class="overflow-hidden rounded-[32px] border border-black/5 bg-gray-100"
-                    >
+                <article
+                    class="relative overflow-hidden rounded-[32px] border p-10 shadow-sm shadow-gray-200/70 backdrop-blur-sm"
+                >
+                    <figure class="overflow-hidden rounded-[28px]">
                         <div
                             aria-hidden="true"
-                            class="aspect-[16/7] w-full"
-                            style={`background-image: ${heroAccent}`}
+                            class="aspect-[16/7] w-full bg-gradient-to-br from-blue-100 via-white to-orange-100"
                         >
                         </div>
                     </figure>
 
-                    <Card class="border-gray-100 bg-white !p-10">
-                        <div class="rich-text">
-                            <Content />
-                        </div>
-                    </Card>
+                    <div class="rich-text mt-10">
+                        <Content />
+                    </div>
                 </article>
 
                 {
                     filteredHeadings.length ? (
                         <aside class="lg:sticky lg:top-32">
-                            <Card class="space-y-5 border-gray-100 bg-white">
-                                <div>
-                                    <p class="text-xs font-semibold uppercase tracking-[0.35em] text-gray-400">
-                                        On this page
-                                    </p>
-                                    <h2 class="text-lg font-semibold text-gray-900">
-                                        Jump to a section
-                                    </h2>
-                                </div>
+                            <div class="rounded-[28px] border border-gray-200 bg-white/80 p-6 shadow-sm shadow-gray-200/60 backdrop-blur-sm">
+                                <p class="text-[11px] font-semibold uppercase tracking-[0.35em] text-gray-400">
+                                    On this page
+                                </p>
+                                <h2 class="mt-2 text-lg font-semibold text-gray-900">
+                                    Jump to a section
+                                </h2>
                                 <nav
                                     aria-label="Table of contents"
-                                    class="space-y-3 text-sm text-gray-600"
+                                    class="mt-6 space-y-2 text-sm text-gray-600"
                                 >
                                     {filteredHeadings.map((heading) => {
                                         const isChild = heading.depth > 2;
@@ -152,18 +133,21 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
                                         return (
                                             <a
                                                 key={heading.slug}
-                                                class={`flex items-center justify-between gap-4 rounded-xl px-3 py-2 text-left transition hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                                                class:list={[
+                                                    "group flex items-center justify-between gap-4 rounded-2xl px-3 py-2 text-left transition",
+                                                    "hover:bg-blue-50 hover:text-blue-700",
+                                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
                                                     isChild
-                                                        ? "pl-4 text-gray-500"
-                                                        : "pl-0"
-                                                }`}
+                                                        ? "pl-6 text-gray-500"
+                                                        : undefined,
+                                                ]}
                                                 href={`#${heading.slug}`}
                                             >
                                                 <span class="flex-1 pr-4">
                                                     {heading.text}
                                                 </span>
                                                 <svg
-                                                    class="h-4 w-4 flex-shrink-0 text-emerald-500"
+                                                    class="h-4 w-4 flex-shrink-0 text-blue-500 transition group-hover:translate-x-0.5"
                                                     viewBox="0 0 24 24"
                                                     fill="none"
                                                     stroke="currentColor"
@@ -178,83 +162,11 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
                                         );
                                     })}
                                 </nav>
-                            </Card>
+                            </div>
                         </aside>
                     ) : null
                 }
             </div>
-        </main>
-    </div>
+        </section>
+    </main>
 </Layout>
-
-<style>
-    .rich-text {
-        display: grid;
-        gap: 1.75rem;
-        color: rgb(55 65 81);
-        font-size: 1.125rem;
-        line-height: 1.8;
-    }
-
-    .rich-text > :first-child {
-        margin-top: 0;
-    }
-
-    .rich-text :is(h2, h3, h4, h5, h6) {
-        margin-top: 2.75rem;
-        color: rgb(17 24 39);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-    }
-
-    .rich-text :is(h2, h3, h4, h5, h6) + * {
-        margin-top: 1.25rem;
-    }
-
-    .rich-text p {
-        margin: 0;
-    }
-
-    .rich-text a {
-        color: rgb(5 150 105);
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .rich-text a:hover {
-        color: rgb(4 120 87);
-    }
-
-    .rich-text ul,
-    .rich-text ol {
-        margin: 0;
-        padding-left: 1.5rem;
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .rich-text blockquote {
-        margin: 0;
-        padding-left: 1.25rem;
-        border-left: 4px solid rgba(16, 185, 129, 0.35);
-        color: rgb(75 85 99);
-        font-style: italic;
-    }
-
-    .rich-text code {
-        background-color: rgb(243 244 246);
-        padding: 0.125rem 0.375rem;
-        border-radius: 0.375rem;
-        font-size: 0.95em;
-        color: rgb(17 24 39);
-    }
-
-    .rich-text pre {
-        margin: 0;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        background-color: rgba(17, 24, 39, 0.95);
-        color: rgb(249 250 251);
-        overflow-x: auto;
-    }
-</style>

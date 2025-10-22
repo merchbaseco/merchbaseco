@@ -2,26 +2,13 @@
 import ProductCard from "@/components/ui/product-card.astro";
 import { Squircle } from "@/components/ui/squircle";
 import { HugeiconsIcon } from "@merchbaseco/icons";
-import { Shirt01Icon } from "@merchbaseco/icons/core-solid-rounded";
-import {
-    BookOpen01Icon,
-    Home01Icon,
-    InformationCircleIcon,
-} from "@merchbaseco/icons/core-stroke-rounded";
 import type { CollectionEntry } from "astro:content";
-import NavItem from "../nav-item.astro";
 import {
     LinkSquare01BulkRounded,
     Shirt01BulkRounded,
-    ShoppingBag03BulkRounded,
-    VictoryFinger03BulkRounded,
 } from "@merchbaseco/icons/core-bulk-rounded";
-import { LassoTool01Icon } from "@merchbaseco/icons/core-stroke-sharp";
 import { ChromeIcon } from "@merchbaseco/icons/core-bulk-rounded";
 import { SafariIcon } from "@merchbaseco/icons/core-solid-rounded";
-
-const isHomePage = Astro.url.pathname === "/";
-const isAboutPage = Astro.url.pathname.startsWith("/about");
 
 interface Props {
     recentPosts?: Array<CollectionEntry<"blog">>;
@@ -30,8 +17,6 @@ interface Props {
 const { recentPosts = [] } = Astro.props as Props;
 
 const site = Astro.site ?? new URL("http://localhost/");
-const homeHref = new URL("./", site).pathname;
-const aboutHref = new URL("./about/", site).pathname;
 const blogPostHref = (slug: string) =>
     new URL(`./blog/${slug}/`, site).pathname;
 
@@ -59,17 +44,14 @@ const formatDate = (date: Date) =>
             sellers
         </h2>
         <h2 class="text-[44px] font-normal leading-12 -mt-2">
-            rooted in quality, beauty, and integrity.
+            with less bugs, more beauty, and lots of charm.
         </h2>
-        <h4 class="mt-4 text-xl max-w-[1100px] w-full leading-10">
-            Started by Zach Knickerbocker, an experienced PoD seller,
-            MerchBase's core mission is to bring truly quality tools to the
-            space without the headaches of constant bugs, predatory
-            subscriptions, and other unscrupulous practices.
-        </h4>
+        <h3 class="mt-4 text-2xl font-light w-full leading-10">
+            Built by the community, for the community. Get started below!
+        </h3>
     </div>
 
-    <main class="mt-10 px-9">
+    <main class="mt-[7.5rem] px-9">
         <div class="flex gap-6">
             <ProductCard
                 cornerRadius={30}
@@ -173,7 +155,7 @@ const formatDate = (date: Date) =>
 
                 <div class="flex justify-between items-center">
                     <div
-                        class="rounded-lg px-3 bg-gray-300/80 items-center flex gap-0 leading-5 text-gray-800 h-7"
+                        class="rounded-lg px-3 bg-gray-300/70 items-center flex gap-0 leading-5 text-gray-800 h-7"
                     >
                         <span class="font-mono text-sm uppercase font-medium"
                             >COMING SOON</span
@@ -183,55 +165,60 @@ const formatDate = (date: Date) =>
             </ProductCard>
         </div>
     </main>
-    <div
-        class="mt-10 text-[100px] -z-50 text-gray-300 font-black font-display -mb-[70px] ml-9 scale-y-105"
-    >
-        Everything Else
-    </div>
     {
         recentPosts.length > 0 && (
-            <section class="bg-gray-300/20 border-t backdrop-blur-sm backdrop-hue-rotate-30 pt-20 pb-9 pl-9 relative z-50">
-                <div
-                    class="grid gap-6 justify-items-start"
-                    style={{
-                        gridTemplateColumns:
-                            "repeat(auto-fit, minmax(24rem, max-content))",
-                    }}
-                >
+            <section class="bg-gray-300/20 border-t backdrop-blur-sm backdrop-hue-rotate-30 pt-12 mt-32 pb-9 pl-9 relative z-50">
+                <h3 class="pl-1 text-2xl font-semibold w-full leading-10">
+                    Notes, Snippets, and Shareables
+                </h3>
+                <h4 class="pl-1 text-lg font-light w-full">
+                    Check back periodically for updates! We keep up with the
+                    trends, and try to share useful stuff with the community.
+                </h4>
+                <div class="mt-12 grid grid-cols-[24rem,24rem,24rem,24rem] gap-6 justify-items-start">
                     {recentPosts.map((post) => (
-                        <Squircle
+                        <a
                             key={post.id}
-                            cornerRadius={24}
-                            cornerSmoothing={0.8}
-                            className="group relative flex w-96 h-72 flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+                            class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-3xl"
+                            href={blogPostHref(post.slug)}
                         >
-                            <div class="flex flex-1 flex-col justify-between">
-                                <div>
-                                    <h3 class="text-xl font-semibold pr-16">
-                                        {post.data.title}
-                                    </h3>
-                                    <p class="mt-3 text-gray-600 leading-7">
-                                        {post.data.description}
-                                    </p>
-                                </div>
-                                <div class="flex justify-end">
-                                    <div class="bg-gray-100 uppercase text-sm rounded-lg px-2 h-8 flex items-center tracking-wide text-indigo-600">
-                                        {formatDate(post.data.publishDate)}
+                            <Squircle
+                                cornerRadius={24}
+                                cornerSmoothing={0.8}
+                                className="group relative flex w-96 h-72 flex-col justify-between rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+                            >
+                                <div class="flex flex-1 flex-col justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-semibold pr-16">
+                                            {post.data.title}
+                                        </h3>
+                                        <p class="mt-3 text-gray-600 leading-7">
+                                            {post.data.description}
+                                        </p>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <div class="bg-gray-100 uppercase text-sm rounded-lg px-3 h-8 flex items-center tracking-wide text-indigo-600">
+                                            <span class="uppercase">
+                                                Blog Post
+                                            </span>
+                                            <div class="h-full w-px bg-white mx-3" />
+                                            {formatDate(post.data.publishDate)}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-6 right-6 opacity-50 group-hover:opacity-100"
+                                        aria-hidden="true"
+                                    >
+                                        <HugeiconsIcon
+                                            icon={LinkSquare01BulkRounded}
+                                            size={32}
+                                            color="currentColor"
+                                            className="transition-colors"
+                                        />
                                     </div>
                                 </div>
-                                <a
-                                    class="absolute block top-6 right-6 opacity-50 group-hover:opacity-100"
-                                    href={blogPostHref(post.slug)}
-                                >
-                                    <HugeiconsIcon
-                                        icon={LinkSquare01BulkRounded}
-                                        size={32}
-                                        color="currentColor"
-                                        className="transition-colors"
-                                    />
-                                </a>
-                            </div>
-                        </Squircle>
+                            </Squircle>
+                        </a>
                     ))}
 
                     {[1, 2, 3, 4, 5, 6].map((value) => (
