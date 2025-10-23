@@ -1,13 +1,144 @@
 ---
 import BaseLayout from "@/layouts/layout.astro";
-import HomePage from "@/components/pages/home.astro";
-import { getCollection } from "astro:content";
-
-const recentPosts = (await getCollection("blog"))
-    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-    .slice(0, 3);
+import ProductCard from "@/components/ui/product-card.astro";
+import { HugeiconsIcon } from "@merchbaseco/icons";
+import {
+  LinkSquare01BulkRounded,
+  Shirt01BulkRounded,
+} from "@merchbaseco/icons/core-bulk-rounded";
+import { ChromeIcon } from "@merchbaseco/icons/core-bulk-rounded";
+import { SafariIcon } from "@merchbaseco/icons/core-solid-rounded";
+import RecentPostsSection from "@/components/blog/recent-posts-section.astro";
 ---
 
 <BaseLayout title="MerchBase">
-    <HomePage recentPosts={recentPosts} />
+  <div class="min-h-screen bg-white">
+    <div class="w-full mt-4 px-9">
+      <h2 class="text-[44px] font-normal leading-12">
+        We build bespoke tools for
+        <div
+          class="inline-flex gap-1 text-blue-600 font-semibold items-center relative -bottom-1.5"
+        >
+          <HugeiconsIcon
+            icon={Shirt01BulkRounded}
+            size={44}
+            color="currentColor"
+            className="transition-colors"
+          />
+          <div>Print on Demand</div>
+        </div>
+        sellers
+      </h2>
+      <h2 class="text-[44px] font-normal leading-12 -mt-2">
+        with less bugs, more beauty, and lots of charm.
+      </h2>
+      <h3 class="mt-4 text-2xl font-light w-full leading-10">
+        Built by the community, for the community. Get started below!
+      </h3>
+    </div>
+
+    <main class="mt-[7.5rem] px-9">
+      <div class="flex gap-6">
+        <ProductCard
+          cornerRadius={30}
+          cornerSmoothing={1}
+          className="bg-[#DC6D3E] text-white font-mono w-96"
+        >
+          <div class="absolute top-6 right-6">
+            <HugeiconsIcon
+              icon={LinkSquare01BulkRounded}
+              size={32}
+              color="currentColor"
+              className="transition-colors"
+            />
+          </div>
+          <div class="h-full w-full flex-col justify-end"></div>
+
+          <div
+            class="size-64 absolute top-0 left-16 flex flex-col justify-end items-center"
+            style={{
+              backgroundImage: 'url("/unicorn-shirt.png")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div class="text-2xl font-mono font-bold">#864,000</div>
+            <div class="text-lg font-mono opacity-80 font-medium -mt-1 -mb-4">
+              BSR
+            </div>
+          </div>
+
+          <div
+            class="size-64 absolute -top-12 -left-24 -z-10 flex flex-col justify-end items-center scale-[.85] blur-[4px] -rotate-6"
+            style={{
+              backgroundImage: 'url("/vibes-shirt.png")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div class="text-2xl font-mono font-bold">#1,235,000</div>
+          </div>
+
+          <div
+            class="size-64 absolute top-12 -right-24 -z-10 flex flex-col justify-end items-center scale-[.85] blur-[4px] rotate-6"
+            style={{
+              backgroundImage: 'url("/rocket-shirt.png")',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div class="text-2xl font-mono font-bold">#184,000</div>
+          </div>
+
+          <div>
+            <h3 class="text-3xl mb-2 font-bold">RankWrangler</h3>
+            <p class="mb-6 font-mono font-medium tracking-tight text-[17px] opacity-90">
+              See BSR's and listing data directly in Amazon Search results.
+            </p>
+            <div class="flex justify-between items-center">
+              <div
+                class="rounded-lg px-3 bg-[#ffd0ba] items-center flex gap-0 leading-5 text-[#612205]"
+              >
+                <span class="font-mono text-sm uppercase font-medium">FREE</span>
+                <div class="h-7 w-px bg-[#DC6D3E] shrink-0 mx-3"></div>
+                <span class="font-mono text-sm uppercase font-medium">
+                  BROWSER EXTENSION
+                </span>
+              </div>
+              <div class="flex gap-2 items-center">
+                <HugeiconsIcon
+                  icon={ChromeIcon}
+                  size={24}
+                  color="currentColor"
+                  className="transition-colors text-[#ffd0ba]"
+                />
+                <HugeiconsIcon
+                  icon={SafariIcon}
+                  size={24}
+                  color="currentColor"
+                  className="transition-colors text-[#ffd0ba]"
+                />
+              </div>
+            </div>
+          </div>
+        </ProductCard>
+        <ProductCard
+          cornerRadius={30}
+          cornerSmoothing={1}
+          className="bg-gray-200/60 text-black w-96 hover:scale-100"
+        >
+          <div class="h-full w-full flex-col justify-end"></div>
+
+          <div class="flex justify-between items-center">
+            <div
+              class="rounded-lg px-3 bg-gray-300/70 items-center flex gap-0 leading-5 text-gray-800 h-7"
+            >
+              <span class="font-mono text-sm uppercase font-medium">COMING SOON</span>
+            </div>
+          </div>
+        </ProductCard>
+      </div>
+    </main>
+    <RecentPostsSection />
+  </div>
 </BaseLayout>

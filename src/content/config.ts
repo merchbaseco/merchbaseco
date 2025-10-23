@@ -1,5 +1,18 @@
 import { defineCollection, z } from "astro:content";
 
+const heroFigureSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("image"),
+    src: z.string(),
+    alt: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal("component"),
+    name: z.string(),
+    props: z.record(z.unknown()).optional(),
+  }),
+]);
+
 const blog = defineCollection({
   type: "content",
   schema: z.object({
@@ -7,7 +20,7 @@ const blog = defineCollection({
     description: z.string(),
     publishDate: z.date(),
     updatedDate: z.date().optional(),
-    heroImage: z.string().optional(),
+    heroFigure: heroFigureSchema.optional(),
     tags: z.array(z.string()).default([]),
   }),
 });

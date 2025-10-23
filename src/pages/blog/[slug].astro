@@ -3,6 +3,8 @@ import Layout from "@/layouts/layout.astro";
 import { HugeiconsIcon } from "@merchbaseco/icons";
 import { Home01Icon } from "@merchbaseco/icons/core-bulk-rounded";
 import { getCollection, getEntry } from "astro:content";
+import BlogFigureIsland from "@/components/blog/figure-island";
+import RecentPostsSection from "@/components/blog/recent-posts-section.astro";
 
 export async function getStaticPaths() {
     const blogEntries = await getCollection("blog");
@@ -28,6 +30,29 @@ if (!entry) {
 
 const { Content, headings } = await entry.render();
 const { data } = entry;
+const heroFigure = data.heroFigure;
+
+const componentFigureModules = import.meta.glob(
+    "@/components/blog/figures/**/*.tsx",
+);
+
+const availableComponentFigures = new Set(
+    Object.keys(componentFigureModules)
+        .map((path) => {
+            const normalizedPath = path.replace(/\\/g, "/");
+            const baseName = normalizedPath
+                .split("/")
+                .pop()
+                ?.replace(/\.(jsx|tsx|js|ts)$/, "");
+
+            return baseName ?? "";
+        })
+        .filter((name) => name.length > 0),
+);
+
+const hasHeroComponent =
+    heroFigure?.type === "component" &&
+    availableComponentFigures.has(heroFigure.name);
 
 const formattedDate = data.publishDate.toLocaleDateString("en-US", {
     month: "long",
@@ -48,8 +73,17 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
 ---
 
 <Layout title={`${data.title} · MerchBase`}>
-    <main class="min-h-screen mx-auto w-full max-w-7xl bg-white">
-        <div class="pb-12">
+    <main class="mx-auto w-full max-w-5xl">
+        <header class="mt-12 pb-12 flex justify-between items-start">
+            <div class="space-y-6">
+                <h1 class="text-[44px] font-normal leading-6">
+                    {data.title}
+                </h1>
+                <h2 class="text-xl uppercase text-gray-60">
+                    Posted on
+                    {formattedDate}
+                </h2>
+            </div>
             <a
                 href={homeHref}
                 class="group inline-flex items-center gap-2 rounded-2xl px-4 py-2 transition bg-gray-50 border border-gray-100 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
@@ -63,110 +97,36 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
                 />
                 <span>Back to Homepage</span>
             </a>
-
-            <header class="mt-12 space-y-6">
-                <div
-                    class="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-gray-500"
-                >
-                    {
-                        primaryTag && (
-                            <span class="rounded-full border border-gray-200 bg-white/80 px-3 py-1">
-                                {primaryTag}
-                            </span>
-                        )
-                    }
-                    <time
-                        class="rounded-full border border-gray-200 bg-white/80 px-3 py-1"
-                        datetime={publishedDateTime}
-                    >
-                        {formattedDate}
-                    </time>
-                </div>
-                <h1
-                    class="font-display text-[44px] leading-[1.05] text-gray-900 md:text-[56px]"
-                >
-                    {data.title}
-                </h1>
-                <p class="text-2xl font-light leading-10 text-gray-600">
-                    {data.description}
-                </p>
-            </header>
-        </div>
-
-        <section class="pb-24">
-            <div
-                class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] lg:items-start"
-            >
-                <article
-                    class="relative overflow-hidden rounded-[32px] border p-10 shadow-sm shadow-gray-200/70 backdrop-blur-sm"
-                >
-                    <figure class="overflow-hidden rounded-[28px]">
-                        <div
-                            aria-hidden="true"
-                            class="aspect-[16/7] w-full bg-gradient-to-br from-blue-100 via-white to-orange-100"
-                        >
-                        </div>
-                    </figure>
-
-                    <div class="rich-text mt-10">
-                        <Content />
+        </header>
+        <figure class="overflow-hidden rounded-[28px] mb-12 w-[110%] -ml-[5%]">
+            {
+                heroFigure?.type === "image" ? (
+                    <img
+                        src={heroFigure.src}
+                        alt={heroFigure.alt ?? data.title}
+                        class="aspect-[16/9] h-auto w-full object-cover"
+                        loading="lazy"
+                    />
+                ) : hasHeroComponent ? (
+                    <div class="relative aspect-[16/9] w-full">
+                        <BlogFigureIsland
+                            client:load
+                            name={heroFigure.name}
+                            figureProps={heroFigure.props}
+                            className="absolute inset-0 h-full w-full"
+                        />
                     </div>
-                </article>
-
-                {
-                    filteredHeadings.length ? (
-                        <aside class="lg:sticky lg:top-32">
-                            <div class="rounded-[28px] border border-gray-200 bg-white/80 p-6 shadow-sm shadow-gray-200/60 backdrop-blur-sm">
-                                <p class="text-[11px] font-semibold uppercase tracking-[0.35em] text-gray-400">
-                                    On this page
-                                </p>
-                                <h2 class="mt-2 text-lg font-semibold text-gray-900">
-                                    Jump to a section
-                                </h2>
-                                <nav
-                                    aria-label="Table of contents"
-                                    class="mt-6 space-y-2 text-sm text-gray-600"
-                                >
-                                    {filteredHeadings.map((heading) => {
-                                        const isChild = heading.depth > 2;
-
-                                        return (
-                                            <a
-                                                key={heading.slug}
-                                                class:list={[
-                                                    "group flex items-center justify-between gap-4 rounded-2xl px-3 py-2 text-left transition",
-                                                    "hover:bg-blue-50 hover:text-blue-700",
-                                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-                                                    isChild
-                                                        ? "pl-6 text-gray-500"
-                                                        : undefined,
-                                                ]}
-                                                href={`#${heading.slug}`}
-                                            >
-                                                <span class="flex-1 pr-4">
-                                                    {heading.text}
-                                                </span>
-                                                <svg
-                                                    class="h-4 w-4 flex-shrink-0 text-blue-500 transition group-hover:translate-x-0.5"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                >
-                                                    <path d="M5 12h14" />
-                                                    <path d="m12 5 7 7-7 7" />
-                                                </svg>
-                                            </a>
-                                        );
-                                    })}
-                                </nav>
-                            </div>
-                        </aside>
-                    ) : null
-                }
-            </div>
-        </section>
+                ) : (
+                    <div
+                        aria-hidden="true"
+                        class="aspect-[16/9] w-full bg-gradient-to-br from-blue-100 via-white to-orange-100"
+                    />
+                )
+            }
+        </figure>
+        <article class="rich-text">
+            <Content />
+        </article>
     </main>
+    <RecentPostsSection />
 </Layout>

@@ -5,6 +5,10 @@ publishDate: 2024-11-20
 tags:
   - product
   - analytics
+heroFigure:
+  type: image
+  src: /rocket-shirt.png
+  alt: "Illustration of a rocket-printed shirt on a mannequin"
 ---
 
 RankWrangler started as a simple spreadsheet to answer a single question: *how are our listings actually performing?* The deeper we dug, the clearer it became that tracking rankings, ad performance, and keyword strength in real time was the missing ingredient for most print on demand sellers.
