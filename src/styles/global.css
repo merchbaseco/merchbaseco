@@ -45,6 +45,14 @@ body {
         @apply m-0 grid gap-3 pl-6;
     }
 
+    .rich-text ul {
+        @apply list-disc;
+    }
+
+    .rich-text ol {
+        @apply list-decimal;
+    }
+
     .rich-text blockquote {
         @apply m-0 border-l-4 border-blue-200/70 pl-5 text-slate-500 italic;
     }

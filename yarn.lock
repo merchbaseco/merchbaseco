@@ -1753,6 +1753,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@types/uuid@npm:10.0.0"
+  checksum: 10c0/9a1404bf287164481cb9b97f6bb638f78f955be57c40c6513b7655160beb29df6f84c915aaf4089a1559c216557dc4d2f79b48d978742d3ae10b937420ddac60
+  languageName: node
+  linkType: hard
+
 "@types/webxr@npm:*, @types/webxr@npm:^0.5.2":
   version: 0.5.24
   resolution: "@types/webxr@npm:0.5.24"
@@ -3909,6 +3916,7 @@ __metadata:
     postcss: "npm:^8.4.49"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
+    signature-animation: "npm:^1.2.1"
     tailwind-merge: "npm:^2.5.5"
     tailwindcss: "npm:^3.4.17"
     three: "npm:^0.161.0"
@@ -5518,6 +5526,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"signature-animation@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "signature-animation@npm:1.2.1"
+  dependencies:
+    "@types/uuid": "npm:^10.0.0"
+    uuid: "npm:^10.0.0"
+  checksum: 10c0/9d8e24edd38fca88e3b80a992178e1520ce5bc0619e988747567d4ccac032f9ab575dae303dee3a09d0306c1b4ba78eb5944b15b7f826660d392e32bc930b8fe
+  languageName: node
+  linkType: hard
+
 "simple-swizzle@npm:^0.2.2":
   version: 0.2.4
   resolution: "simple-swizzle@npm:0.2.4"
@@ -6149,6 +6167,15 @@ __metadata:
   version: 3.11.0
   resolution: "utility-types@npm:3.11.0"
   checksum: 10c0/2f1580137b0c3e6cf5405f37aaa8f5249961a76d26f1ca8efc0ff49a2fc0e0b2db56de8e521a174d075758e0c7eb3e590edec0832eb44478b958f09914920f19
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "uuid@npm:10.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c0/eab18c27fe4ab9fb9709a5d5f40119b45f2ec8314f8d4cf12ce27e4c6f4ffa4a6321dc7db6c515068fa373c075b49691ba969f0010bf37f44c37ca40cd6bf7fe
   languageName: node
   linkType: hard
 

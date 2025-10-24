@@ -4,7 +4,10 @@ import { HugeiconsIcon } from "@merchbaseco/icons";
 import { Home01Icon } from "@merchbaseco/icons/core-bulk-rounded";
 import { getCollection, getEntry } from "astro:content";
 import BlogFigureIsland from "@/components/blog/figure-island";
+import { AnimatedSignature } from "@/components/blog/animated-signature";
+import AuthorHighlight from "@/components/blog/author-highlight.astro";
 import RecentPostsSection from "@/components/blog/recent-posts-section.astro";
+import SiteFooter from "@/components/site-footer.astro";
 
 export async function getStaticPaths() {
     const blogEntries = await getCollection("blog");
@@ -73,7 +76,7 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
 ---
 
 <Layout title={`${data.title} · MerchBase`}>
-    <main class="mx-auto w-full max-w-5xl">
+    <main class="mx-auto w-full max-w-5xl pb-12">
         <header class="mt-12 pb-12 flex justify-between items-start">
             <div class="space-y-6">
                 <h1 class="text-[44px] font-normal leading-6">
@@ -127,6 +130,10 @@ const primaryTag = data.tags?.[0] ? formatTagLabel(data.tags[0]) : undefined;
         <article class="rich-text">
             <Content />
         </article>
+        <div class="mt-16 h-[221px]">
+            <AnimatedSignature client:only="react" />
+        </div>
+        <AuthorHighlight class="mt-12" />
+        <SiteFooter class="pt-12" />
     </main>
-    <RecentPostsSection />
 </Layout>

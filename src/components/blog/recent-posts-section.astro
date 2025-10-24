@@ -3,6 +3,7 @@ import { Squircle } from "@/components/ui/squircle";
 import { HugeiconsIcon } from "@merchbaseco/icons";
 import { LinkSquare01BulkRounded } from "@merchbaseco/icons/core-bulk-rounded";
 import { getCollection } from "astro:content";
+import SiteFooter from "@/components/site-footer.astro";
 
 interface Props {
   limit?: number;
@@ -90,23 +91,7 @@ const recentPosts = (await getCollection("blog"))
         ))}
       </div>
 
-      <div class="text-base text-gray-600 flex gap-6 mt-24 flex-wrap items-center">
-        <div>Copyright © 2025 MerchBase, LLC. All rights reserved.</div>
-        <div>/</div>
-        <a
-          class="text-indigo-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          href="/terms-of-service/"
-        >
-          Terms of Service
-        </a>
-        <div>/</div>
-        <a
-          class="text-indigo-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          href="/privacy-policy/"
-        >
-          Privacy Policy
-        </a>
-      </div>
+      <SiteFooter class="mt-24" />
     </section>
   )
 }

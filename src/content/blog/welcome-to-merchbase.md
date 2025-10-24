@@ -11,10 +11,17 @@ heroFigure:
   alt: "Illustration of a rocket blasting through clouds with the words Welcome to MerchBase"
 ---
 
-We started MerchBase because the print on demand community deserves software that feels like it was crafted just for them—polished interfaces, reliable data, and playful touches that make long listing sessions less of a grind. Today we are excited to officially launch MerchBase.co and invite you to take the first steps with us.
+Hey there, I'm Zach, and for first time readers, I've been in the Print on Demand industry for nearly a decade. More about that later though... to jump right into it: I am so excited to announce the launch of MerchBase!
 
-MerchBase is a growing collection of bespoke tools built by sellers, for sellers. Our first release, **RankWrangler**, pulls Best Seller Rank and listing details directly into Amazon search so you can spot winning designs without juggling spreadsheets. The browser extension is free, works in Chrome and Safari, and ships with the design polish and stability we expect from the products we build.
+MerchBase is more than just a website, or a blog... it's an all-encompassing studio where I can bring helpful products, tools, and resources to the PoD community. Sellers and designers need all sorts of tools to help them succeed on marketplaces like Amazon and Etsy. MerchBase builds those tools differently than everybody else: we are obsessed with beauty, quality, and usability. That means...
 
-Beyond the launch extension, we are investing in a living knowledge base of notes, snippets, and experiments that help the community stay ahead of trends. When you explore the new site you will find a home page that reflects who we are—humans who care about craft, community, and giving fellow creatives the tools to thrive.
+1. Less bugs to deal with!
+2. Browser extensions that don't junk up the websites they run on, or your computer!
+3. Actual data-backed information & guides in the form of blog articlewheres.
+4. And more, all in service of the community that makes PoD special.
 
-This is just the start. We will be rolling out more utilities, deeper analytics, and ways for you to shape the roadmap. Subscribe to the blog, share your feedback, and join us in building the merch toolkit we have all been waiting for.
+There is a lot of work to do, but just to give you a sense of where we're going:
+
+The first product from MerchBase is called RankWrangler, and it's a browser extension that inserts best seller rank (BSR) and other useful product data directly into the search results on Amazon.com, making it truly simple to spot what's working (and what's not) as sellers research the market on Amazon. More on that soon!
+
+If you're reading this, and you identify with the mission, then welcome! I'm so excited for this journey.

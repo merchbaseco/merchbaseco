@@ -1,0 +1,28 @@
+---
+const classProp =
+    typeof Astro.props === "object" && Astro.props !== null
+        ? (Astro.props as Record<string, unknown>).class
+        : undefined;
+const className =
+    typeof classProp === "string" && classProp.length > 0 ? classProp : "mt-24";
+---
+
+<footer
+    class={`text-base text-gray-600 flex gap-6 flex-wrap items-center py-6 ${className}`}
+>
+    <div>Copyright © 2025 MerchBase, LLC. All rights reserved.</div>
+    <div>/</div>
+    <a
+        class="text-indigo-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        href="/terms-of-service/"
+    >
+        Terms of Service
+    </a>
+    <div>/</div>
+    <a
+        class="text-indigo-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        href="/privacy-policy/"
+    >
+        Privacy Policy
+    </a>
+</footer>
