@@ -24,6 +24,17 @@ function CursorProvider({ children }: CursorProviderProps) {
   const isCursorHiddenRef = React.useRef(false);
 
   React.useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add("animate-ui-cursor-none");
+    isCursorHiddenRef.current = true;
+
+    return () => {
+      root.classList.remove("animate-ui-cursor-none");
+      isCursorHiddenRef.current = false;
+    };
+  }, []);
+
+  React.useEffect(() => {
     const id = "__cursor_none_style__";
     if (document.getElementById(id)) return;
 
@@ -77,12 +88,14 @@ function CursorProvider({ children }: CursorProviderProps) {
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerover", handlePointerMove, { passive: true });
     window.addEventListener("pointerout", handlePointerOut, { passive: true });
     window.addEventListener("mouseout", handlePointerOut, { passive: true });
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerover", handlePointerMove);
       window.removeEventListener("pointerout", handlePointerOut);
       window.removeEventListener("mouseout", handlePointerOut);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -108,20 +121,6 @@ const Cursor = React.forwardRef<HTMLDivElement, CursorProps>(function Cursor(
   forwardedRef,
 ) {
   const { cursorPos, active, cursorRef, pressed } = useCursor();
-
-  React.useEffect(() => {
-    const root = document.documentElement;
-
-    if (active) {
-      root.classList.add("animate-ui-cursor-none");
-    } else {
-      root.classList.remove("animate-ui-cursor-none");
-    }
-
-    return () => {
-      root.classList.remove("animate-ui-cursor-none");
-    };
-  }, [active]);
 
   const setRef = React.useCallback(
     (node: HTMLDivElement | null) => {
