@@ -1,34 +1,38 @@
 # Merchbase.co
 
-Static Astro site for merchbase.co. The app builds into a standalone nginx image and deploys through the `merchbase-infra` repository.
+Static Astro site for merchbase.co, hosted on **Cloudflare Pages**.
+
+## Hosting
+
+This site is deployed automatically to Cloudflare Pages on every push to `main`.
+
+- **URL:** https://merchbase.co
+- **Pages project:** `merchbase`
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+
+### Environment Variables (Cloudflare Pages)
+
+Set these in the Cloudflare Pages dashboard:
+
+- `PUBLIC_SITE_URL` – `https://merchbase.co`
+- `PUBLIC_BASE_PATH` – `/`
+- `NPM_TOKEN` – GitHub PAT with `read:packages` scope (for `@merchbaseco/icons`)
 
 ## Local Development
 
-1. Copy `.env.example` to `.env` and set `MERCHBASE_NPM_TOKEN` to a GitHub Packages token with `read:packages`.
-2. Install deps and start Astro:
+1. Copy `.env.example` to `.env` and set your npm token
+2. Install dependencies and start dev server:
 
 ```bash
-yarn install
-yarn dev
+npm install
+npm run dev
 ```
 
-## Deployment Overview
+## Build
 
-- The Dockerfile performs a multi-stage build (`yarn build`) and produces a static nginx image served on port 80.
-- On pushes to `main`, `.github/workflows/deploy.yml` builds the image, pushes it to GHCR at `ghcr.io/merchbaseco/merchbaseco`, then SSHes to the server to pull the tag and run `stack/merchbaseco/deploy.sh`.
-- The server-side script (kept in `~/merchbase-infra/stack/merchbaseco`) updates the `.env` tag, runs `docker compose pull merchbaseco`, and restarts the container.
+```bash
+npm run build
+```
 
-### Required Secrets
-
-Set these Actions secrets in this repo:
-
-- `GHCR_USERNAME` / `GHCR_TOKEN` – classic PAT with `write:packages`, `read:packages`, `repo`.
-- `DEPLOY_SSH_HOST` – host (or IP) of the deployment server.
-- `DEPLOY_SSH_USER` – deploy user with access to `docker` and `merchbase-infra/stack/merchbaseco`.
-- `DEPLOY_SSH_PRIVATE_KEY` – private key for the deploy user (PEM format).
-- `DEPLOY_SSH_PASSPHRASE` – optional; leave empty if key has no passphrase.
-
-### Runtime Configuration
-
-- `astro.config.mjs` reads `PUBLIC_SITE_URL` and `PUBLIC_BASE_PATH` if provided; defaults to `https://merchbase.co` and `/`.
-- `stack/merchbaseco/.env` in the infra repo can pin `MERCHBASECO_IMAGE_TAG` to a specific version/digest.
+Output is written to `dist/`.
