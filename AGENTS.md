@@ -4,15 +4,15 @@
 Astro pages live in `src/pages`, layout shells sit in `src/layouts`, and shared React components belong in `src/components`. Reusable utilities go under `src/lib`, while design tokens and Tailwind layers live in `src/styles`. Static assets (favicons, og images) belong in `public` so Astro can serve them verbatim. Keep new feature directories shallow—prefer collocating assets alongside their page or component folder when possible.
 
 ## Build, Test, and Development Commands
-- `npm run dev`: start the Astro dev server with hot module reload at `http://localhost:4321`.
-- `npm run build`: generate the production static build in `dist/`.
-- `npm run preview`: run a local server against the built output for smoke checks.
-- `npm run lint`: run Biome linting across Astro, TypeScript, and JSX sources.
-- `npm run format`: apply Biome formatting rules before committing. Always run this command and resolve any Biome issues before every commit so the codebase stays consistent.
+- `bun run dev`: start the Astro dev server with hot module reload at `http://localhost:4321`.
+- `bun run build`: generate the production static build in `dist/`.
+- `bun run preview`: run a local server against the built output for smoke checks.
+- `bun run lint`: run Biome linting across Astro, TypeScript, and JSX sources.
+- `bun run format`: apply Biome formatting rules before committing. Always run this command and resolve any Biome issues before every commit so the codebase stays consistent.
 
 ## Local Development Workflow & QA Ritual
-- Install dependencies with `npm install`.
-- Start the dev server with `npm run dev` and give Astro enough time to finish its initial build. Watch the terminal for 404s, Vite overlay errors, or stack traces; resolve them before continuing.
+- Install dependencies with `bun install --frozen-lockfile`.
+- Start the dev server with `bun run dev` and give Astro enough time to finish its initial build. Watch the terminal for 404s, Vite overlay errors, or stack traces; resolve them before continuing.
 - When validating changes, keep the dev server log visible so you can spot hot-reload warnings or runtime exceptions as they appear. If you see repeated errors, capture them in your PR notes.
 - If the browser surfaces a 404 or any runtime error, troubleshoot before proceeding—use the dev server logs, stack traces, or error overlays to identify the root cause and resolve it.
 - Always capture relevant UI screenshots after the app has fully loaded. Wait for fonts, images, and dynamic data to appear; if the page shows a loading skeleton or error state (e.g., 404), refresh or navigate until the intended view renders correctly before taking the screenshot.

@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const heroFigureSchema = z.discriminatedUnion("type", [
   z.object({
@@ -14,7 +15,7 @@ const heroFigureSchema = z.discriminatedUnion("type", [
 ]);
 
 const blog = defineCollection({
-  type: "content",
+  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
