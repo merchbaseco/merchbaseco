@@ -1,7 +1,7 @@
-import { APIKeys, UserButton, UserProfile, useAuth, useUser } from "@clerk/react";
+import { UserButton, UserProfile, useAPIKeys, useAuth, useClerk, useUser } from "@clerk/react";
 import { ArrowDown01Icon } from "@hugeicons-pro/core-stroke-rounded";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useCallback, useEffect, useState } from "react";
+import { type FormEvent, useCallback, useEffect, useState } from "react";
 
 import { type ClerkConfiguration, MerchbaseClerkProvider } from "@/components/auth/clerk-provider";
 import { SquircleReact as Squircle } from "@/components/ui/squircle";
@@ -138,7 +138,7 @@ function AccountSectionContent({
   }
 
   if (section === "api-keys") {
-    return <ApiKeysSection />;
+    return <ApiKeysSection accessOrigin={accessOrigin} />;
   }
 
   return <OverviewSection />;
@@ -254,7 +254,103 @@ function ProfileSection() {
   );
 }
 
-function ApiKeysSection() {
+function ApiKeysSection({ accessOrigin }: Pick<AccountAppProps, "accessOrigin">) {
+  const clerk = useClerk();
+  const { getToken, userId } = useAuth();
+  const apiKeys = useAPIKeys({
+    enabled: Boolean(userId),
+    pageSize: 20,
+    subject: userId ?? undefined,
+  });
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [newKey, setNewKey] = useState<{ name: string; secret: string } | null>(null);
+  const [retiringId, setRetiringId] = useState<string | null>(null);
+  const [busy, setBusy] = useState<"create" | string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const createKey = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const keyName = name.trim();
+    if (!(keyName && userId)) {
+      return;
+    }
+    if (!accessOrigin) {
+      setError("API-key creation is not configured for this environment.");
+      return;
+    }
+
+    setBusy("create");
+    setError(null);
+    try {
+      const token = await getToken();
+      if (!token) {
+        throw new AccessClientError("unauthenticated");
+      }
+      await createAccessClient({ origin: accessOrigin }).me(token);
+      const created = await clerk.apiKeys.create({
+        description: description.trim() || undefined,
+        name: keyName,
+        subject: userId,
+      });
+      if (!created.secret) {
+        throw new Error("Clerk did not return the new key secret.");
+      }
+      setNewKey({ name: created.name, secret: created.secret });
+      setName("");
+      setDescription("");
+      await apiKeys.revalidate();
+    } catch (caught) {
+      setError(
+        caught instanceof AccessClientError
+          ? caught.message
+          : "Could not create the API key. Try again.",
+      );
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const retireKey = async (apiKeyId: string) => {
+    if (!accessOrigin) {
+      setError("API-key retirement is not configured for this environment.");
+      return;
+    }
+
+    setBusy(apiKeyId);
+    setError(null);
+    try {
+      const token = await getToken();
+      if (!token) {
+        throw new AccessClientError("unauthenticated");
+      }
+      await createAccessClient({ origin: accessOrigin }).retireApiKey(token, apiKeyId);
+      setRetiringId(null);
+      await apiKeys.revalidate();
+    } catch (caught) {
+      setError(
+        caught instanceof AccessClientError
+          ? caught.message
+          : "Could not retire the API key. Try again.",
+      );
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const copyNewKey = async () => {
+    if (!newKey) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(newKey.secret);
+      setCopied(true);
+    } catch {
+      setError("Could not copy the key. Select and copy it manually.");
+    }
+  };
+
   return (
     <section aria-labelledby="api-keys-title">
       <SectionHeading
@@ -268,14 +364,225 @@ function ApiKeysSection() {
         cornerSmoothing={1}
       >
         <p className="text-pretty text-base/7 sm:text-sm/6">
-          Treat API keys like passwords. Revoked keys may continue working for up to five minutes
-          while authorization caches expire.
+          Treat API keys like passwords. Retiring a key here notifies Merchbase products to discard
+          their cached verification; a daily Clerk check repairs a missed notification.
         </p>
       </Squircle>
-      <div className="mt-8">
-        <APIKeys showDescription />
+
+      {newKey ? (
+        <Squircle
+          className="mt-8 bg-[#E5EEFF] p-6 text-[#173A78]"
+          cornerRadius={24}
+          cornerSmoothing={1}
+        >
+          <p className="font-display text-xl font-semibold">Copy {newKey.name} now</p>
+          <p className="mt-2 text-base/7 sm:text-sm/6">
+            Clerk shows this secret once. Store it somewhere secure before closing this panel.
+          </p>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <input
+              aria-label="New API key"
+              className="min-h-11 min-w-0 flex-1 rounded-xl border border-[#173A78]/20 bg-white px-3 font-mono text-sm text-gray-950"
+              readOnly
+              value={newKey.secret}
+            />
+            <button
+              className="min-h-11 rounded-xl bg-[#173A78] px-4 text-sm font-medium text-white hover:bg-[#102B5B]"
+              onClick={() => void copyNewKey()}
+              type="button"
+            >
+              {copied ? "Copied" : "Copy key"}
+            </button>
+            <button
+              className="min-h-11 rounded-xl px-4 text-sm font-medium text-[#173A78] hover:bg-white/60"
+              onClick={() => {
+                setCopied(false);
+                setNewKey(null);
+              }}
+              type="button"
+            >
+              Done
+            </button>
+          </div>
+        </Squircle>
+      ) : null}
+
+      <form
+        className="mt-8 grid gap-5 rounded-3xl border border-gray-950/10 p-6"
+        onSubmit={createKey}
+      >
+        <div>
+          <h2 className="font-display text-xl font-semibold text-gray-950">Create a key</h2>
+          <p className="mt-1 text-base/7 text-gray-600 sm:text-sm/6">
+            Keys do not expire unless you retire them. Your Merchbase access is managed separately.
+          </p>
+        </div>
+        <label className="grid gap-2 text-sm font-medium text-gray-900">
+          Name
+          <input
+            className="min-h-11 rounded-xl border border-gray-950/15 px-3 text-base font-normal outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15"
+            maxLength={100}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="MacBook CLI"
+            required
+            value={name}
+          />
+        </label>
+        <label className="grid gap-2 text-sm font-medium text-gray-900">
+          Description <span className="font-normal text-gray-500">(optional)</span>
+          <input
+            className="min-h-11 rounded-xl border border-gray-950/15 px-3 text-base font-normal outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15"
+            maxLength={255}
+            onChange={(event) => setDescription(event.target.value)}
+            placeholder="Used by local automation"
+            value={description}
+          />
+        </label>
+        <div>
+          <button
+            className="min-h-11 rounded-xl bg-blue-600 px-4 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={busy === "create" || !name.trim()}
+            type="submit"
+          >
+            {busy === "create" ? "Creating…" : "Create API key"}
+          </button>
+        </div>
+      </form>
+
+      {error ? (
+        <p className="mt-5 rounded-2xl bg-red-50 p-4 text-sm text-red-900" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      <div className="mt-10">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-gray-950">
+          Active keys
+        </h2>
+        {apiKeys.isLoading ? (
+          <div
+            aria-label="Loading API keys"
+            className="mt-5 h-28 animate-pulse rounded-3xl bg-gray-50"
+          />
+        ) : apiKeys.isError ? (
+          <p className="mt-5 rounded-2xl bg-red-50 p-5 text-sm text-red-900">
+            Could not load API keys. Reload the page to try again.
+          </p>
+        ) : apiKeys.data.length === 0 ? (
+          <p className="mt-5 rounded-3xl bg-gray-50 p-6 text-base/7 text-gray-600 sm:text-sm/6">
+            No active API keys yet.
+          </p>
+        ) : (
+          <div>
+            <ul className="mt-5 divide-y divide-gray-950/10 border-y border-gray-950/10">
+              {apiKeys.data.map((apiKey) => (
+                <ApiKeyRow
+                  apiKey={apiKey}
+                  busy={busy === apiKey.id}
+                  confirming={retiringId === apiKey.id}
+                  key={apiKey.id}
+                  onCancel={() => setRetiringId(null)}
+                  onConfirm={() => void retireKey(apiKey.id)}
+                  onRetire={() => setRetiringId(apiKey.id)}
+                />
+              ))}
+            </ul>
+            {apiKeys.pageCount > 1 ? (
+              <nav
+                aria-label="API key pages"
+                className="mt-5 flex items-center justify-between gap-4"
+              >
+                <button
+                  className="min-h-10 rounded-lg px-3 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  disabled={!apiKeys.hasPreviousPage || apiKeys.isFetching}
+                  onClick={apiKeys.fetchPrevious}
+                  type="button"
+                >
+                  Previous
+                </button>
+                <p className="font-mono text-xs text-gray-500">
+                  Page {apiKeys.page} of {apiKeys.pageCount}
+                </p>
+                <button
+                  className="min-h-10 rounded-lg px-3 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  disabled={!apiKeys.hasNextPage || apiKeys.isFetching}
+                  onClick={apiKeys.fetchNext}
+                  type="button"
+                >
+                  Next
+                </button>
+              </nav>
+            ) : null}
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function ApiKeyRow({
+  apiKey,
+  busy,
+  confirming,
+  onCancel,
+  onConfirm,
+  onRetire,
+}: {
+  apiKey: {
+    createdAt: Date;
+    description: string | null;
+    id: string;
+    lastUsedAt: Date | null;
+    name: string;
+  };
+  busy: boolean;
+  confirming: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onRetire: () => void;
+}) {
+  return (
+    <li className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <p className="font-medium text-gray-950">{apiKey.name}</p>
+        {apiKey.description ? (
+          <p className="mt-1 text-sm text-gray-600">{apiKey.description}</p>
+        ) : null}
+        <p className="mt-2 font-mono text-xs text-gray-500">
+          Created {apiKey.createdAt.toLocaleDateString()}
+          {apiKey.lastUsedAt ? ` · Last used ${apiKey.lastUsedAt.toLocaleDateString()}` : ""}
+        </p>
+      </div>
+      {confirming ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm text-gray-600">Retire this key?</span>
+          <button
+            className="min-h-10 rounded-lg px-3 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            disabled={busy}
+            onClick={onCancel}
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            className="min-h-10 rounded-lg bg-red-600 px-3 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-60"
+            disabled={busy}
+            onClick={onConfirm}
+            type="button"
+          >
+            {busy ? "Retiring…" : "Retire key"}
+          </button>
+        </div>
+      ) : (
+        <button
+          className="min-h-10 self-start rounded-lg px-3 text-sm font-medium text-red-700 hover:bg-red-50 sm:self-auto"
+          onClick={onRetire}
+          type="button"
+        >
+          Retire
+        </button>
+      )}
+    </li>
   );
 }
 

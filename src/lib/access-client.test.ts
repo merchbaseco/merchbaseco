@@ -4,6 +4,7 @@ import { AccessClientError, createAccessClient } from "@/lib/access-client";
 
 const grantedProfile = {
   access: "granted",
+  accessValidUntil: null,
   merchbaseUserId: "mbu_test",
   services: {
     bidbeacon: "granted",
@@ -60,5 +61,39 @@ describe("Access client", () => {
     expect(() => createAccessClient({ origin: "https://access.merchbase.co/private" })).toThrow(
       "must be an HTTP origin without a path",
     );
+  });
+
+  test("retires an API key through the authenticated Access Service route", async () => {
+    let request: Request | undefined;
+    const client = createAccessClient({
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return new Response(null, { status: 204 });
+      },
+      origin: "https://access.merchbase.co",
+    });
+
+    await client.retireApiKey("session-token", "apikey_one");
+
+    expect(request?.url).toBe("https://access.merchbase.co/api-keys/apikey_one/retire");
+    expect(request?.method).toBe("POST");
+    expect(request?.headers.get("authorization")).toBe("Bearer session-token");
+    expect(request?.headers.get("content-type")).toBeNull();
+  });
+
+  test("rejects malformed API key identifiers without a request", async () => {
+    let requests = 0;
+    const client = createAccessClient({
+      fetch: async () => {
+        requests += 1;
+        return new Response(null, { status: 204 });
+      },
+      origin: "https://access.merchbase.co",
+    });
+
+    expect(client.retireApiKey("session-token", "../key")).rejects.toMatchObject({
+      kind: "not_found",
+    });
+    expect(requests).toBe(0);
   });
 });
