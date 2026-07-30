@@ -21,7 +21,7 @@ does not add a second credential system or server-side session layer here.
 | `/account` | MerchBase account overview |
 | `/account/profile` | Clerk `UserProfile` |
 | `/account/access` | Merchbase Access `GET /me` |
-| `/account/api-keys` | Clerk `APIKeys` |
+| `/account/api-keys` | MerchBase UI over Clerk API keys and Access retirement |
 
 The Account Center uses its own compact page-level navigation. It does not
 depend on the public site's header or sidebar.
@@ -42,6 +42,18 @@ registered product.
 Clerk API keys authenticate a user across Merchbase services. Access is
 suite-wide for now. The `/me` response already exposes per-service states so
 future product entitlements do not require an Account Center route change.
+
+The API-key page uses Clerk's browser API to list and create user-owned keys.
+Creation first calls `/me` so the signed-in Clerk Identity has its stable
+Merchbase User mapping and default Access Profile. The new secret is displayed
+once and is never stored by Merchbase.
+
+Retirement calls the authenticated Access Service
+`POST /api-keys/{apiKeyId}/retire` route instead of Clerk's embedded API-key
+component. The Access Service verifies ownership, revokes the key through
+Clerk, and advances `merchbase.apiKeyRevision`. Clerk's resulting
+`user.updated` webhook tells product verifiers to discard cached keys for that
+identity.
 
 ## Configuration
 
@@ -84,5 +96,6 @@ Then exercise these browser paths with the development Clerk instance:
 6. Signing out returns to the public site and another visit to `/account`
    requires sign-in.
 
-Revoked API keys may remain accepted for up to five minutes while service
-authorization caches expire.
+Normal Account Center retirement pushes cache invalidation to products.
+Direct Clerk Dashboard/API retirement bypasses that signal and may remain
+accepted by a product until its next daily Clerk verification.
