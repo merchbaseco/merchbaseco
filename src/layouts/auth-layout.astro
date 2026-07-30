@@ -1,0 +1,86 @@
+---
+import "@/styles/global.css";
+import BrandLockup from "@/components/brand-lockup.astro";
+import { Squircle } from "@/components/ui/squircle";
+
+interface Props {
+  description: string;
+  title: string;
+}
+
+const { description, title } = Astro.props as Props;
+---
+
+<!doctype html>
+<html class="antialiased" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · MerchBase</title>
+  </head>
+  <body class="min-h-dvh bg-white text-gray-950">
+    <noscript>
+      <style>
+        {`[data-squircle] { clip-path: none !important; border-radius: var(--squircle-fallback-radius, 0px) !important; }`}
+      </style>
+    </noscript>
+    <main
+      class="relative isolate grid min-h-dvh bg-white lg:grid-cols-[5fr_4fr] lg:gap-10 lg:p-5 xl:grid-cols-[6fr_5fr]"
+    >
+      <div class="absolute left-5 top-5 z-20 lg:left-14 lg:top-14 xl:left-20 xl:top-20">
+        <BrandLockup responsiveInverse />
+      </div>
+
+      <Squircle
+        class="relative hidden min-h-[calc(100dvh-2.5rem)] overflow-hidden bg-[#DC6D3E] p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14"
+        cornerRadius={36}
+        cornerSmoothing={1}
+      >
+        <div aria-hidden="true" class="h-16"></div>
+
+        <div class="relative z-10">
+          <p class="font-mono text-sm font-medium tracking-wide text-[#FFD0BA]">
+            ONE MERCHBASE ACCOUNT
+          </p>
+          <h1
+            class="mt-4 max-w-[18ch] text-balance font-display text-5xl font-semibold tracking-tight xl:text-6xl"
+          >
+            One login. Every MerchBase tool.
+          </h1>
+          <p class="mt-5 max-w-[48ch] text-pretty text-lg text-white/85">
+            Move between research, trademarks, ads, and production without juggling accounts.
+          </p>
+        </div>
+
+        <div class="relative z-10 flex flex-wrap gap-2 font-mono text-sm text-[#612205]">
+          <span class="rounded-lg bg-[#FFD0BA] px-2.5 py-1.5">MERCHBASE CORE</span>
+          <span class="rounded-lg bg-[#FFD0BA] px-2.5 py-1.5">RANKWRANGLER</span>
+          <span class="rounded-lg bg-[#FFD0BA] px-2.5 py-1.5">TRADEMARK TERMINAL</span>
+        </div>
+
+        <img
+          alt=""
+          class="absolute -right-20 top-20 w-72 rotate-6 opacity-35 blur-[1px] xl:w-80"
+          src="/rocket-shirt.png"
+        />
+        <img
+          alt=""
+          class="absolute -right-16 bottom-12 w-80 -rotate-6 opacity-25 blur-[2px] xl:w-96"
+          src="/vibes-shirt.png"
+        />
+      </Squircle>
+
+      <div
+        class="flex min-h-dvh items-center px-5 pb-8 pt-28 lg:min-h-0 lg:px-8 lg:py-8 xl:px-14"
+      >
+        <div class="mx-auto grid w-full max-w-xs gap-9">
+          <slot />
+          <p class="text-center text-base/7 text-gray-500 sm:text-sm/6">
+            One account for MerchBase products.
+          </p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

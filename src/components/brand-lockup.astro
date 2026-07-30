@@ -1,0 +1,39 @@
+---
+import Logo from "@/components/logo.astro";
+
+interface Props {
+  account?: boolean;
+  inverse?: boolean;
+  responsiveInverse?: boolean;
+}
+
+const { account = false, inverse = false, responsiveInverse = false } = Astro.props as Props;
+---
+
+<a
+  aria-label="Homepage"
+  class="group inline-flex shrink-0 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
+  data-logo-hover-target
+  href="/"
+>
+  <Logo />
+  <span
+    class:list={[
+      "font-display text-3xl font-extrabold tracking-tight sm:text-[2.75rem]",
+      responsiveInverse
+        ? "text-gray-950 lg:text-white"
+        : inverse
+          ? "text-white"
+          : "text-gray-950",
+    ]}
+  >
+    MerchBase
+  </span>
+  {
+    account && (
+      <span class="rounded-lg bg-[#FBE8DF] px-2 py-1 font-mono text-[0.6875rem] font-medium tracking-wide text-[#7A2F10]">
+        ACCOUNT
+      </span>
+    )
+  }
+</a>

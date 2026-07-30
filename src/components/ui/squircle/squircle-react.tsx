@@ -1,10 +1,5 @@
 import { forwardRef, useEffect, useMemo } from "react";
-import type {
-  CSSProperties,
-  DetailedHTMLProps,
-  HTMLAttributes,
-  Ref,
-} from "react";
+import type { CSSProperties, DetailedHTMLProps, HTMLAttributes, Ref } from "react";
 
 import { ensureSquircleElement } from "./squircle-element";
 
@@ -15,14 +10,7 @@ export interface SquircleReactProps extends HTMLAttributes<HTMLElement> {
 
 export const SquircleReact = forwardRef<HTMLElement, SquircleReactProps>(
   (
-    {
-      children,
-      className,
-      cornerRadius = 24,
-      cornerSmoothing = 0.8,
-      style,
-      ...props
-    },
+    { children, className, cornerRadius = 24, cornerSmoothing = 0.8, style, ...props },
     forwardedRef,
   ) => {
     useEffect(() => {
@@ -39,7 +27,7 @@ export const SquircleReact = forwardRef<HTMLElement, SquircleReactProps>(
     return (
       <merch-squircle
         ref={forwardedRef as Ref<HTMLElement>}
-        className={className}
+        class={["block", className].filter(Boolean).join(" ")}
         corner-radius={cornerRadius}
         corner-smoothing={cornerSmoothing}
         style={mergedStyle}
@@ -56,10 +44,8 @@ SquircleReact.displayName = "SquircleReact";
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      "merch-squircle": DetailedHTMLProps<
-        HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
+      "merch-squircle": DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
+        class?: string;
         "corner-radius"?: number | string;
         "corner-smoothing"?: number | string;
       };

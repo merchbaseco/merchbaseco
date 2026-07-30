@@ -1,0 +1,46 @@
+---
+import "@/styles/global.css";
+import AccountHeader from "@/components/account-header.astro";
+
+interface Props {
+  description: string;
+  title: string;
+}
+
+const { description, title } = Astro.props as Props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html class="antialiased" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · MerchBase</title>
+  </head>
+  <body class="min-h-dvh bg-white text-gray-950">
+    <noscript>
+      <style>
+        {`[data-squircle] { clip-path: none !important; border-radius: var(--squircle-fallback-radius, 0px) !important; }`}
+      </style>
+    </noscript>
+    <AccountHeader />
+    <main class="isolate mx-auto w-full max-w-6xl px-5 py-10 sm:px-9 sm:py-16">
+      <slot />
+    </main>
+    <footer
+      class="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 px-5 pb-10 text-base/7 text-gray-600 sm:gap-5 sm:px-9 sm:text-sm/6"
+    >
+      <p>Copyright © {year} MerchBase, LLC. All rights reserved.</p>
+      <span aria-hidden="true">/</span>
+      <a class="font-normal text-blue-600 hover:underline" href="/terms-of-service/">
+        Terms of Service
+      </a>
+      <span aria-hidden="true">/</span>
+      <a class="font-normal text-blue-600 hover:underline" href="/privacy-policy/">
+        Privacy Policy
+      </a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+---
+import { AuthenticationApp } from "@/components/auth/authentication-app";
+import AuthLayout from "@/layouts/auth-layout.astro";
+---
+
+<AuthLayout description="Create your Merchbase account." title="Create account">
+  <AuthenticationApp
+    client:only="react"
+    mode="sign-up"
+    publishableKey={import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY}
+  >
+    <div class="h-[30rem] animate-pulse rounded-xl bg-gray-100" slot="fallback"></div>
+  </AuthenticationApp>
+</AuthLayout>

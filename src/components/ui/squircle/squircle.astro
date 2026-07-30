@@ -19,10 +19,7 @@ const fallbackStyles = [
   `border-radius: ${cornerRadius}px`,
 ];
 
-const styleSegments = [
-  ...fallbackStyles,
-  style,
-].filter(Boolean);
+const styleSegments = [...fallbackStyles, style].filter(Boolean);
 
 const needsSemicolon = (segment: string) => segment.trim() !== "" && !segment.trim().endsWith(";");
 const inlineStyle = styleSegments
@@ -32,7 +29,7 @@ const inlineStyle = styleSegments
 
 <merch-squircle
   data-squircle
-  class:list={[className]}
+  class:list={["block", className]}
   corner-radius={cornerRadius}
   corner-smoothing={cornerSmoothing}
   style={inlineStyle}
@@ -41,7 +38,7 @@ const inlineStyle = styleSegments
   <slot />
 </merch-squircle>
 
-<script type="module">
+<script>
   import { ensureSquircleElement } from "./squircle-element";
   ensureSquircleElement();
 </script>

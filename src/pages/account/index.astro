@@ -1,0 +1,18 @@
+---
+import { AccountApp } from "@/components/account/account-app";
+import AccountLayout from "@/layouts/account-layout.astro";
+---
+
+<AccountLayout
+  description="Manage your Merchbase identity, product access, and credentials."
+  title="Account"
+>
+  <AccountApp
+    accessOrigin={import.meta.env.PUBLIC_ACCESS_API_ORIGIN}
+    client:only="react"
+    publishableKey={import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY}
+    section="overview"
+  >
+    <div class="h-80 animate-pulse rounded-xl bg-gray-100" slot="fallback"></div>
+  </AccountApp>
+</AccountLayout>
