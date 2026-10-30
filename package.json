@@ -18,8 +18,6 @@
   },
   "dependencies": {
     "@astrojs/react": "5.0.5",
-    "@clerk/react": "6.12.8",
-    "@clerk/shared": "4.25.8",
     "@fontsource/bricolage-grotesque": "5.2.10",
     "@fontsource/public-sans": "5.2.7",
     "@hugeicons-pro/core-bulk-rounded": "4.2.3",

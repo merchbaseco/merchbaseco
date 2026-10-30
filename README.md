@@ -21,21 +21,18 @@ Set these in the Cloudflare Pages dashboard:
 
 - `PUBLIC_SITE_URL` – `https://merchbase.co`
 - `PUBLIC_BASE_PATH` – `/`
-- `PUBLIC_CLERK_PUBLISHABLE_KEY` – the publishable key for the production MerchBase Clerk instance
-- `PUBLIC_ACCESS_API_ORIGIN` – `https://access.merchbase.co`
 - `HUGEICONS_LICENSE_KEY` – HugeIcons Pro package license key
 
 ## Local Development
 
-1. Copy `.env.example` to `.env`.
-2. Set `HUGEICONS_LICENSE_KEY`, `PUBLIC_CLERK_PUBLISHABLE_KEY`, and the local
-   Access Service origin. Obtain the Access Service port from its checkout with
-   `dev-port`.
-3. Install dependencies and start the development server:
+Provide the HugeIcons install credential through the approved install process.
+Account Center needs no frontend authentication key or cross-origin API URL.
+Use `dev-port` for the local server. A plain Astro server needs a same-origin
+Access Worker or explicit local browser fixture to render authenticated settings.
 
 ```bash
 bun install --frozen-lockfile
-bun run dev
+bunx astro dev --host 127.0.0.1 --port "$(dev-port)"
 ```
 
 ## Checks
