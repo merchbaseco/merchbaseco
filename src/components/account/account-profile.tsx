@@ -18,8 +18,8 @@ export const AccountProfile = ({ profile }: { profile: AccessProfile }) => (
       <div className="py-5">
         <dt className="font-medium text-gray-950">Sign-in security</dt>
         <dd className="mt-2 max-w-[56ch] text-base/7 text-gray-600">
-          Use the code sent to your approved email address. Your login provider manages sign-in
-          details; Merchbase manages product access and API keys.
+          Sign in with your approved Google account. Google manages sign-in security; Merchbase
+          manages product access and API keys.
         </dd>
       </div>
     </dl>

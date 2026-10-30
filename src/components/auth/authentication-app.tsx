@@ -14,8 +14,7 @@ export const AuthenticationApp = () => {
         Sign in to MerchBase
       </h1>
       <p className="mt-4 text-base/7 text-gray-600">
-        Continue to sign in securely with Cloudflare Access. Use the code sent to your approved
-        email address.
+        Continue to sign in securely with your approved Google account.
       </p>
       <a
         className="mt-7 inline-flex min-h-11 items-center rounded-xl bg-blue-600 px-4 text-sm font-medium text-white hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
