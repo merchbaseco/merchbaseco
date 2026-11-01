@@ -34,7 +34,6 @@ const labels: Record<string, string> = {
   rankwrangler: "RankWrangler",
   tmterminal: "Trademark Terminal",
   bidbeacon: "BidBeacon",
-  etsysentry: "EtsySentry",
   atlas: "Atlas",
   handmade: "Handmade",
   fulfillment: "Merchbase Fulfillment",

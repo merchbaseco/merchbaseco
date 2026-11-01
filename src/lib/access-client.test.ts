@@ -9,7 +9,6 @@ const profile = {
     rankwrangler: "granted",
     tmterminal: "granted",
     bidbeacon: "granted",
-    etsysentry: "granted",
     atlas: "granted",
     handmade: "granted",
     fulfillment: "granted",
