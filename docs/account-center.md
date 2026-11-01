@@ -8,7 +8,8 @@ read_when:
 # Account Center
 
 Account Center is a static Astro site on Cloudflare Pages. Cloudflare Access
-protects `/account` and its pages. The Access Worker owns the narrow zone route
+protects `/account` and its pages, using the approved Google identity provider
+for sign-in. The Access Worker owns the narrow zone route
 `merchbase.co/account/api/*`; all other public pages remain on Pages.
 
 | Route | Purpose |
@@ -22,8 +23,8 @@ protects `/account` and its pages. The Access Worker owns the narrow zone route
 The sign-in page accepts `return_url` and legacy `redirect_url` only for local
 `/account` pages. It never redirects to arbitrary origins, public routes, or
 API endpoints. There is no public signup or client-created Merchbase identity.
-The approved email login and identity provider are configured in Cloudflare.
-Account Center does not edit identity-provider security settings.
+Cloudflare Access prompts for the approved Google account. Account Center does
+not edit identity-provider security settings.
 
 The sign-out link is `/cdn-cgi/access/logout`. Cloudflare documents that this
 revokes the session across applications and clears this origin's cookie.
@@ -63,7 +64,9 @@ metadata history remains visible.
 ## Local verification
 
 Install packages with the approved HugeIcons registry credential provided only
-to the install process. No Clerk publishable key or Access API origin is needed.
+to the install process. The frontend has no authentication-provider key or
+cross-origin API setting; Cloudflare Access and the same-origin Worker provide
+the hosted session and API.
 Obtain a local server port with `dev-port`, then run:
 
 ```bash
