@@ -5,6 +5,7 @@ function CursorClient() {
     <CursorProvider global aria-hidden>
       <Cursor>
         <svg
+          aria-hidden="true"
           className="size-8 text-indigo-600"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 40 40"
